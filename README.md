@@ -23,7 +23,7 @@ Aplicação web desenvolvida em java, utilizando o framework Spring, que se prop
 
 
 ## Requisitos
-- Instalar [docker](https://docs.docker.com/engine/install/) e [compose plugin](https://docs.docker.com/compose/install/)
+- Instalar [docker](https://docs.docker.com/engine/install/)
 
 ## Inicialização
 1. Caso queira inicializar a aplicação, vá para a pasta raiz do projeto e execute:
