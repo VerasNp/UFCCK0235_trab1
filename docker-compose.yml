@@ -1,0 +1,8 @@
+version: '3.9'
+services:
+  spring:
+    build: 
+      context: app/
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
