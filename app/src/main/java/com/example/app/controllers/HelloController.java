@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class HelloController {
 
-    @GetMapping("/hello")
+    @GetMapping("/calcularMedia")
     public String hello(HttpServletRequest request) {
         request.setAttribute("nome", "Bruno");
         return "hello";
