@@ -1,9 +1,10 @@
 import React from 'react';
+import Default from './components/templates/home';
 
 const App: React.FC = () => {
 	return (
 		<>
-			<h1>Helou</h1>
+			<Default />
 		</>
 	);
 };

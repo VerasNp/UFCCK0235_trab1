@@ -4,6 +4,7 @@ import path from 'path';
 import * as process from 'process';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import * as dotenv from 'dotenv';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 dotenv.config();
 
@@ -22,7 +23,7 @@ const config: Configuration = {
 	},
 	resolve: {
 		modules: [path.resolve(__dirname, './src'), 'node_modules'],
-		extensions: ['.ts', '.tsx', '.js', '.jsx'],
+		extensions: ['.ts', '.tsx', '.js', '.jsx', '.css'],
 	},
 	module: {
 		rules: [
@@ -35,13 +36,20 @@ const config: Configuration = {
 					},
 				],
 			},
+			{
+				test: /\.css$/i,
+				use: ['style-loader', 'css-loader'],
+			},
 		],
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: './public/index.html',
 		}),
-		new webpack.EnvironmentPlugin({}),
+		new webpack.EnvironmentPlugin(),
+		new MiniCssExtractPlugin({
+			filename: '[name].[contenthash].css',
+		}),
 	],
 };
 
