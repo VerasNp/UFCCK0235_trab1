@@ -1,12 +1,7 @@
 import React from 'react';
-import Navbar from '../../organisms/navbar';
 
 const Home: React.FC = () => {
-	return (
-		<>
-			<Navbar />
-		</>
-	);
+	return <>Main content of Home</>;
 };
 
 export default Home;

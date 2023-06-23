@@ -7,6 +7,7 @@ interface Props {
 	name: string;
 	text: string;
 	disabled: boolean;
+	onClick?: React.MouseEventHandler;
 }
 
 const Button: React.FC<Props> = ({
@@ -15,10 +16,17 @@ const Button: React.FC<Props> = ({
 	name,
 	text,
 	disabled,
+	onClick,
 }): React.ReactElement => {
 	return (
 		<>
-			<button type={type} className={className} name={name} disabled={disabled}>
+			<button
+				type={type}
+				className={className}
+				name={name}
+				disabled={disabled}
+				onClick={onClick}
+			>
 				{text}
 			</button>
 		</>

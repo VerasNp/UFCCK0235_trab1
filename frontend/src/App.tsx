@@ -1,5 +1,5 @@
 import React from 'react';
-import Default from './components/templates/home';
+import Default from './components/pages/default';
 
 const App: React.FC = () => {
 	return (
