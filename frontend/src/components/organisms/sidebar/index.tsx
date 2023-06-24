@@ -7,7 +7,7 @@ interface Props {
 	onInsertDataClick: React.MouseEventHandler;
 }
 
-const Navbar: React.FC<Props> = ({ onInsertDataClick }) => {
+const Sidebar: React.FC<Props> = ({ onInsertDataClick }) => {
 	return (
 		<>
 			<Nav className="navbar">
@@ -29,4 +29,4 @@ const Navbar: React.FC<Props> = ({ onInsertDataClick }) => {
 	);
 };
 
-export default Navbar;
+export default Sidebar;

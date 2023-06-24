@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Navbar from '../../organisms/navbar';
 import Home from '../../templates/home';
 import InsertData from '../../templates/insert_data';
+import Sidebar from '../../organisms/sidebar';
 
 import './styles.css';
 
@@ -42,7 +42,7 @@ const Default: React.FC = () => {
 
 	return (
 		<div className="page-layout">
-			<Navbar onInsertDataClick={handleInsertDataButtonClick} />
+			<Sidebar onInsertDataClick={handleInsertDataButtonClick} />
 			{pageToRender}
 		</div>
 	);
