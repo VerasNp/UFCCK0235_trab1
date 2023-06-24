@@ -10,7 +10,7 @@
 		"lint": "pretty-quick --staged && lint-staged"
 	},
 	"lint-staged": {
-		"*.{ts,js,tsx,jsx,css}": "eslint --cache --fix"
+		"*.{ts,js,tsx,jsx}": "eslint --cache --fix"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.22.5",
@@ -25,6 +25,7 @@
 		"@types/webpack": "^5.28.1",
 		"@types/webpack-dev-server": "^4.7.2",
 		"@typescript-eslint/eslint-plugin": "^5.50.0",
+		"@typescript-eslint/parser": "^5.60.0",
 		"babel-loader": "^9.1.2",
 		"css-loader": "^6.8.1",
 		"eslint": "^8.0.1",

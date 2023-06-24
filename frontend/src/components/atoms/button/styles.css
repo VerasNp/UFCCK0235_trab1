@@ -1,0 +1,22 @@
+.btn {
+	font-family: 'Quicksand', sans-serif;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 25px;
+	color: #fff;
+	width: 230px;
+	height: 68px;
+
+	background: #159a9c;
+	border: none;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+	cursor: pointer;
+	transition: 0.7s;
+}
+
+.btn:hover {
+	transition-duration: 0.7s;
+	transform: scale(1.03);
+}
