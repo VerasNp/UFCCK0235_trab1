@@ -37,7 +37,18 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-	</dependencies>
+		<dependency> 
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId> 
+			<version>5.7.1</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>org.clojure</groupId>
+			<artifactId>clojurescript</artifactId>
+			<version>1.10.520</version>
+		</dependency>
+ </dependencies>
 
 	<build>
 		<plugins>
