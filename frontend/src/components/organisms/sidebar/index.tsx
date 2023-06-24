@@ -2,6 +2,7 @@ import React from 'react';
 import Logo from '../../atoms/logo';
 import Button from '../../atoms/button';
 import Nav from '../../molecules/nav';
+import './styles.css';
 
 interface Props {
 	onInsertDataClick: React.MouseEventHandler;
@@ -10,7 +11,7 @@ interface Props {
 const Sidebar: React.FC<Props> = ({ onInsertDataClick }) => {
 	return (
 		<>
-			<Nav className="navbar">
+			<Nav className="sidebar">
 				<Logo />
 				<p>
 					Lorem ipsum is placeholder text commonly used in the graphic, print,
