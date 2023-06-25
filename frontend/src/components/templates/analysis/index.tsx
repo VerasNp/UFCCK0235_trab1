@@ -1,8 +1,12 @@
 import React from 'react';
-import './styles.css';
+import SelectChart from '../../organisms/select_chart';
 
 const Analysis: React.FC = () => {
-	return <h1> Analise </h1>;
+	return (
+		<>
+			<SelectChart />
+		</>
+	);
 };
 
 export default Analysis;
