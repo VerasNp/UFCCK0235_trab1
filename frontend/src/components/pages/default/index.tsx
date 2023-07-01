@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Home from '../../templates/home';
 import InsertData from '../../templates/insert_data';
-import Sidebar from '../../organisms/sidebar';
+import Sidebar from '../../organisms/sidebar/sidebarhome';
 
 import './styles.css';
 
@@ -19,6 +19,10 @@ const Default: React.FC = () => {
 		setAppState(ApplicationPage.INSERT_DATA);
 	};
 
+	const handleInsertManuallyClick = (): void => {
+		setAppState(ApplicationPage.DISPLAY_TABLE);
+	};
+
 	let pageToRender;
 
 	// Everytime appState changes, pageToRender will also change accordingly
@@ -27,7 +31,9 @@ const Default: React.FC = () => {
 			pageToRender = <Home />;
 			break;
 		case ApplicationPage.INSERT_DATA:
-			pageToRender = <InsertData />;
+			pageToRender = (
+				<InsertData onInsertManuallyClick={handleInsertManuallyClick} />
+			);
 			break;
 		case ApplicationPage.DISPLAY_TABLE:
 			// Not implemented

@@ -4,7 +4,7 @@ import './styles.css';
 const Logo: React.FC = () => {
 	return (
 		<>
-			<h1 className="title">Surubaia</h1>
+			<h1 className="title">Surabaya</h1>
 		</>
 	);
 };

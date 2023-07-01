@@ -1,7 +1,15 @@
 import React from 'react';
 
-const InsertData: React.FC = () => {
-	return <>Main content of InsertData</>;
+interface Props {
+	onInsertManuallyClick: React.MouseEventHandler;
+}
+
+const InsertData: React.FC<Props> = () => {
+	return (
+		<>
+			Main content of InsertData<h1> jdkasjdkajs </h1>
+		</>
+	);
 };
 
 export default InsertData;

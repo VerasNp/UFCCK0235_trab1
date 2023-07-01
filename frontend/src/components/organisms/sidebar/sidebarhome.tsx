@@ -13,9 +13,11 @@ const Sidebar: React.FC<Props> = ({ onInsertDataClick }) => {
 		<>
 			<Nav className="sidebar">
 				<Logo />
-				<p>
-					Lorem ipsum is placeholder text commonly used in the graphic, print,
-					and publishing industries for previewing layouts and visual mockups
+				<p className="description">
+					{' '}
+					Surabaia é uma sistema de plotagem de dados estatísticos utilizando
+					conhecimentos e padrões aprendidos ao longo da disciplina CK0235 -
+					Técnicas de Programação da Universidade Federal do Ceará.
 				</p>
 				<Button
 					name={''}
