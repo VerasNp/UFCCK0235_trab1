@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import Home from '../../templates/home';
 import InsertData from '../../templates/insert_data';
-import Sidebar from '../../organisms/sidebar/sidebarhome';
+import Display from 'components/templates/display_table';
+import Analysis from 'components/templates/analysis';
+
+import SidebarHome from '../../organisms/sidebar/sidebarhome';
+import SidebarInsert from 'components/organisms/sidebar/sidebarinsertdata';
+import SidebarData from 'components/organisms/sidebar/sidebardata';
 
 import './styles.css';
 
@@ -19,36 +24,53 @@ const Default: React.FC = () => {
 		setAppState(ApplicationPage.INSERT_DATA);
 	};
 
+	const handleVoltarButtonClick = (): void => {
+		setAppState(ApplicationPage.HOME);
+	};
+
 	const handleInsertManuallyClick = (): void => {
 		setAppState(ApplicationPage.DISPLAY_TABLE);
 	};
 
+	let sidebarToRender;
 	let pageToRender;
 
 	// Everytime appState changes, pageToRender will also change accordingly
 	switch (appState) {
 		case ApplicationPage.HOME:
+			sidebarToRender = (
+				<SidebarHome onInsertDataClick={handleInsertDataButtonClick} />
+			);
 			pageToRender = <Home />;
 			break;
 		case ApplicationPage.INSERT_DATA:
+			sidebarToRender = (
+				<SidebarInsert onVoltarClick={handleVoltarButtonClick} />
+			);
 			pageToRender = (
 				<InsertData onInsertManuallyClick={handleInsertManuallyClick} />
 			);
 			break;
 		case ApplicationPage.DISPLAY_TABLE:
-			// Not implemented
+			sidebarToRender = <SidebarData onVoltarClick={handleVoltarButtonClick} />;
+			pageToRender = <Display />;
+
 			break;
 		case ApplicationPage.ANALYSIS:
-			// Not implemented
+			sidebarToRender = <SidebarData onVoltarClick={handleVoltarButtonClick} />;
+			pageToRender = <Analysis />;
 			break;
 		default:
+			sidebarToRender = (
+				<SidebarHome onInsertDataClick={handleInsertDataButtonClick} />
+			);
 			pageToRender = <Home />;
 			break;
 	}
 
 	return (
 		<div className="page-layout">
-			<Sidebar onInsertDataClick={handleInsertDataButtonClick} />
+			{sidebarToRender}
 			{pageToRender}
 		</div>
 	);

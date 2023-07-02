@@ -4,10 +4,10 @@ import Header from '../../molecules/header';
 import './styles.css';
 
 interface Props {
-	onInsertDataClick: React.MouseEventHandler;
+	onVoltarClick: React.MouseEventHandler;
 }
 
-const SidebarHome: React.FC<Props> = ({ onInsertDataClick }) => {
+const SidebarInsert: React.FC<Props> = ({ onVoltarClick }) => {
 	return (
 		<>
 			<div className="sidebar">
@@ -17,12 +17,12 @@ const SidebarHome: React.FC<Props> = ({ onInsertDataClick }) => {
 					disabled={false}
 					type={'button'}
 					className={'btn'}
-					text={'Inserir dados'}
-					onClick={onInsertDataClick}
+					text={'Voltar'}
+					onClick={onVoltarClick}
 				/>
 			</div>
 		</>
 	);
 };
 
-export default SidebarHome;
+export default SidebarInsert;
