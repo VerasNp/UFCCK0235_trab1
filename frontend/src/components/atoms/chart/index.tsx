@@ -8,43 +8,35 @@ import {
 } from 'victory';
 
 import './styles.css';
-
-enum Charts {
-	HISTOGRAM,
-	PIE,
-	BOX_PLOT,
-	BAR,
-}
+import { ChartsEnum } from '../../bosons/enums';
+import { type ColumnData } from '../../bosons/types';
 
 interface Props {
-	chartType: Charts;
+	chartType: ChartsEnum | null;
+	data: ColumnData;
 }
 
 let chart: React.ReactElement | null;
-const Chart: React.FC<Props> = ({ chartType }) => {
+const Chart: React.FC<Props> = ({ chartType, data }) => {
 	switch (chartType) {
-		case Charts.BAR:
-			chart = <VictoryBar />;
+		case ChartsEnum.BAR:
+			chart = <VictoryBar data={data.data} />;
 			break;
-		case Charts.BOX_PLOT:
-			chart = <VictoryBoxPlot />;
+		case ChartsEnum.BOX_PLOT:
+			chart = <VictoryBoxPlot data={data.data} />;
 			break;
-		case Charts.HISTOGRAM:
-			chart = <VictoryHistogram />;
+		case ChartsEnum.HISTOGRAM:
+			chart = <VictoryHistogram data={data.data} />;
 			break;
-		case Charts.PIE:
-			chart = <VictoryPie />;
+		case ChartsEnum.PIE:
+			chart = <VictoryPie data={data.data} />;
 			break;
 		default:
 			chart = null;
 			break;
 	}
 
-	return (
-		<>
-			<VictoryChart>{chart}</VictoryChart>
-		</>
-	);
+	return <>{chart != null ? <VictoryChart>{chart}</VictoryChart> : ''}</>;
 };
 
 export default Chart;

@@ -1,0 +1,10 @@
+.container {
+	margin-left: 80px;
+	margin-right: 80px;
+}
+
+.resume-content {
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-gap: 0 1.5rem;
+}
