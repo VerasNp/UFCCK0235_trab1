@@ -24,8 +24,16 @@ const Default: React.FC = () => {
 		setAppState(ApplicationPage.INSERT_DATA);
 	};
 
-	const handleVoltarButtonClick = (): void => {
+	const handleVoltarHomeButtonClick = (): void => {
 		setAppState(ApplicationPage.HOME);
+	};
+
+	const handleVoltarInsertButtonClick = (): void => {
+		setAppState(ApplicationPage.INSERT_DATA);
+	};
+
+	const handleVoltarDisplayButtonClick = (): void => {
+		setAppState(ApplicationPage.DISPLAY_TABLE);
 	};
 
 	const handleInsertManuallyClick = (): void => {
@@ -45,19 +53,23 @@ const Default: React.FC = () => {
 			break;
 		case ApplicationPage.INSERT_DATA:
 			sidebarToRender = (
-				<SidebarInsert onVoltarClick={handleVoltarButtonClick} />
+				<SidebarInsert onVoltarClick={handleVoltarHomeButtonClick} />
 			);
 			pageToRender = (
 				<InsertData onInsertManuallyClick={handleInsertManuallyClick} />
 			);
 			break;
 		case ApplicationPage.DISPLAY_TABLE:
-			sidebarToRender = <SidebarData onVoltarClick={handleVoltarButtonClick} />;
+			sidebarToRender = (
+				<SidebarData onVoltarClick={handleVoltarInsertButtonClick} />
+			);
 			pageToRender = <Display />;
 
 			break;
 		case ApplicationPage.ANALYSIS:
-			sidebarToRender = <SidebarData onVoltarClick={handleVoltarButtonClick} />;
+			sidebarToRender = (
+				<SidebarData onVoltarClick={handleVoltarDisplayButtonClick} />
+			);
 			pageToRender = <Analysis />;
 			break;
 		default:
