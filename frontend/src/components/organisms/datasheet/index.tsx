@@ -24,6 +24,8 @@ export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
 	const [tableData, setTableData] = useState(tableDataRef.current);
 	const divRef = useRef<HTMLDivElement>(null);
 
+	console.log(tableData);
+
 	const saveTable = (data: TableData): void => {
 		setTableData(data);
 		tableDataRef.current = data;
@@ -103,7 +105,7 @@ export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
 		setTableData(newTableData);
 	};
 
-	const addColumn = (): void => {
+	const addColumn = (type: string): void => {
 		const len = tableData.grid[0].length;
 		const newColumn: Cell[] = [];
 		for (let i = 0; i < len; i++) {
@@ -111,10 +113,18 @@ export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
 		}
 
 		const grid = [...tableData.grid, newColumn];
-		const newTableData = { ...tableData, grid };
+		const newTableData = {
+			...tableData,
+			grid,
+			types: [...tableData.types, type],
+		};
 		tableDataRef.current = newTableData;
 		setTableData(newTableData);
 	};
+
+	const addStringColumn = (): void => { addColumn('string'); };
+	const addIntegerColumn = (): void => { addColumn('int'); };
+	const addFloatColumn = (): void => { addColumn('float'); };
 
 	return (
 		<div className="table-container" ref={divRef}>
@@ -125,6 +135,7 @@ export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
 							<TextCell
 								key={rowIndex}
 								title={cell.value}
+								isColumnTitle={rowIndex === 0}
 								isSelected={cell.isSelected}
 								tableData={tableData}
 								row={rowIndex}
@@ -138,19 +149,27 @@ export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
 					</ColumnCells>
 				))}
 			</div>
-			<div style={{ display: 'flex' }}>
+			<div style={{ display: 'flex', alignSelf: 'start', marginLeft: '5%' }}>
 				<button className="regular-btn" onClick={addRow}>
-					Adicionar linha
+					<img style={{ marginRight: 6 }} src="icons8-add-24.png" />
+					Add linha
 				</button>
 
-				<button
-					className="regular-btn"
-					style={{ marginLeft: 16 }}
-					onClick={addColumn}
-				>
-					Adicionar Coluna
-				</button>
+				<div className="dropdown">
+					<button className="dropbtn">
+						<img style={{ marginRight: 6 }} src="icons8-add-24.png" /> Add
+						coluna
+					</button>
+					<div className="dropdown-content">
+						<button onClick={addStringColumn}>string</button>
+						<button onClick={addIntegerColumn}>inteiro</button>
+						<button onClick={addFloatColumn}>float</button>
+					</div>
+				</div>
 			</div>
+			<button id="calc-btn" className="regular-btn" onClick={() => {}}>
+				Calcular <img style={{ marginLeft: 8 }} src="Calculator.svg" />
+			</button>
 		</div>
 	);
 };

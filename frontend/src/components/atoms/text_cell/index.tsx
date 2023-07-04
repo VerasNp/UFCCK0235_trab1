@@ -12,6 +12,7 @@ export interface TextCellProps {
 	title: string;
 	style?: CSSProperties;
 	isSelected: boolean;
+	isColumnTitle: boolean;
 	row: number;
 	column: number;
 	tableData: TableData;
@@ -30,6 +31,7 @@ export const TextCell: React.FC<TextCellProps> = ({
 	title,
 	style,
 	isSelected,
+	isColumnTitle = false,
 	setSelected,
 	tableUnselected,
 	setTableData,
@@ -88,9 +90,13 @@ export const TextCell: React.FC<TextCellProps> = ({
 		}
 	};
 
+	let className = 'cell';
+	if (isSelected) className += ' highlighted';
+	if (isColumnTitle) className += ' column-title';
+
 	return (
 		<div
-			className={isSelected ? 'cell highlighted' : 'cell'}
+			className={className}
 			onDoubleClick={handleDoubleClick}
 			onClick={handleClick}
 			style={style}
@@ -98,7 +104,9 @@ export const TextCell: React.FC<TextCellProps> = ({
 			{inputActive ? (
 				<input
 					type="text"
-					style={{ width: instantTitle.length * 10 }}
+					className={isColumnTitle ? 'title' : ''}
+					style={{ width: instantTitle.length * 10, fontSize: 17 }}
+					// style={{  fontSize: 17}}/
 					value={instantTitle}
 					autoFocus
 					onBlur={handleOnBlur}
