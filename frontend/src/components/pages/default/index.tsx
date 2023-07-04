@@ -6,7 +6,7 @@ import Sidebar from '../../organisms/sidebar';
 import './styles.css';
 import { DisplayTable } from 'components/templates/display_table';
 import { type TableData } from 'components/organisms/datasheet';
-import { type Cell } from 'components/atoms/text_cell';
+import { type CellData } from 'components/atoms/cell';
 
 enum ApplicationPage {
 	HOME,
@@ -60,7 +60,7 @@ const tableDataFetched = {
 };
 
 const obtainTableData = (data: TemporaryData): TableData => {
-	const grid: Cell[][] = [];
+	const grid: CellData[][] = [];
 	const columnTypes: string[] = [];
 	Object.keys(data).forEach((column) => {
 		let cells = data[column].data.map((value) => ({

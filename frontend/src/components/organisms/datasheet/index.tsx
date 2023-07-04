@@ -1,5 +1,8 @@
+import { type CellData } from 'components/atoms/cell';
 import { ColumnCells } from 'components/atoms/column_cells';
-import { type Cell, TextCell } from 'components/atoms/text_cell';
+import { FloatCell } from 'components/atoms/float_cell';
+import { IntegerCell } from 'components/atoms/int_cell';
+import { TextCell } from 'components/atoms/text_cell';
 import React, {
 	type MutableRefObject,
 	useState,
@@ -14,7 +17,7 @@ export interface Props {
 }
 
 export interface TableData {
-	grid: Cell[][];
+	grid: CellData[][];
 	types: string[];
 	columnSelected?: number;
 }
@@ -107,7 +110,7 @@ export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
 
 	const addColumn = (type: string): void => {
 		const len = tableData.grid[0].length;
-		const newColumn: Cell[] = [];
+		const newColumn: CellData[] = [];
 		for (let i = 0; i < len; i++) {
 			newColumn.push({ value: '', isSelected: false });
 		}
@@ -122,30 +125,75 @@ export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
 		setTableData(newTableData);
 	};
 
-	const addStringColumn = (): void => { addColumn('string'); };
-	const addIntegerColumn = (): void => { addColumn('int'); };
-	const addFloatColumn = (): void => { addColumn('float'); };
+	const addStringColumn = (): void => {
+		addColumn('string');
+	};
+	const addIntegerColumn = (): void => {
+		addColumn('int');
+	};
+	const addFloatColumn = (): void => {
+		addColumn('float');
+	};
 
 	return (
 		<div className="table-container" ref={divRef}>
 			<div className="table">
 				{tableData.grid.map((columnArray, columnIndex) => (
 					<ColumnCells key={columnIndex}>
-						{columnArray.map((cell, rowIndex) => (
-							<TextCell
-								key={rowIndex}
-								title={cell.value}
-								isColumnTitle={rowIndex === 0}
-								isSelected={cell.isSelected}
-								tableData={tableData}
-								row={rowIndex}
-								column={columnIndex}
-								tableUnselected={tableUnselected}
-								setSelected={setCellSelected}
-								saveTable={saveTable}
-								setTableData={setTableData}
-							/>
-						))}
+						{columnArray.map((cell, rowIndex) => {
+							let widget;
+							switch (tableData.types[columnIndex]) {
+								case 'int':
+									widget = (
+										<IntegerCell
+											key={rowIndex}
+											title={cell.value}
+											isColumnTitle={rowIndex === 0}
+											isSelected={cell.isSelected}
+											tableData={tableData}
+											row={rowIndex}
+											column={columnIndex}
+											tableUnselected={tableUnselected}
+											setSelected={setCellSelected}
+											saveTable={saveTable}
+										/>
+									);
+									break;
+								case 'float':
+									widget = (
+										<FloatCell
+											key={rowIndex}
+											title={cell.value}
+											isColumnTitle={rowIndex === 0}
+											isSelected={cell.isSelected}
+											tableData={tableData}
+											row={rowIndex}
+											column={columnIndex}
+											tableUnselected={tableUnselected}
+											setSelected={setCellSelected}
+											saveTable={saveTable}
+										/>
+									);
+									break;
+								default:
+									widget = (
+										<TextCell
+											key={rowIndex}
+											title={cell.value}
+											isColumnTitle={rowIndex === 0}
+											isSelected={cell.isSelected}
+											tableData={tableData}
+											row={rowIndex}
+											column={columnIndex}
+											tableUnselected={tableUnselected}
+											setSelected={setCellSelected}
+											saveTable={saveTable}
+										/>
+									);
+									break;
+							}
+							return widget;
+						})}
 					</ColumnCells>
 				))}
 			</div>

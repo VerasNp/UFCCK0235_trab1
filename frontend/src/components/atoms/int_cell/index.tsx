@@ -1,7 +1,7 @@
 import React from 'react';
 import { Cell, type CellProps } from '../cell';
 
-export const TextCell: React.FC<CellProps> = ({
+export const IntegerCell: React.FC<CellProps> = ({
 	title,
 	style,
 	isSelected,
@@ -13,8 +13,10 @@ export const TextCell: React.FC<CellProps> = ({
 	tableUnselected,
 	saveTable,
 }) => {
-	// Text is always allowed, there is no problem if the user input a number in a string cell
-	const isInputAllowed = (input: string): boolean => true;
+	// we check if the text inputed can be a number
+	const isInputAllowed = (input: string): boolean => {
+		return /^\d+$/.test(input);
+	};
 
 	return (
 		<>
