@@ -1,0 +1,31 @@
+.table-container {
+	margin: 50px 60px;
+}
+
+.table {
+	display: flex;
+	max-height: 300px;
+	margin-bottom: 18px;
+}
+
+.regular-btn {
+	padding: 8px;
+	background-color: #159a9c;
+	border-radius: 8px;
+	color: #fff;
+}
+.regular-btn:active {
+	background-color: #159a9cc5;
+}
+/* .icon-btn {
+	padding: 4px;
+	margin-left: 8px;
+	border-radius: 12px;
+}
+
+.icon-btn:hover {
+	background-color: #159a9c;
+}
+.icon-btn:active {
+	background-color: #159a9cc9;
+} */
