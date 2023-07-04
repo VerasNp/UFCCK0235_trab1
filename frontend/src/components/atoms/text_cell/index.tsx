@@ -106,7 +106,7 @@ export const TextCell: React.FC<TextCellProps> = ({
 					onKeyDown={handleKeyDown}
 				/>
 			) : (
-				<span className="unselectable">{instantTitle}</span>
+				<div className="unselectable">{instantTitle}</div>
 			)}
 		</div>
 	);

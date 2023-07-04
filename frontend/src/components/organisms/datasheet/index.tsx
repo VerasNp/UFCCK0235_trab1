@@ -1,6 +1,11 @@
 import { ColumnCells } from 'components/atoms/column_cells';
 import { type Cell, TextCell } from 'components/atoms/text_cell';
-import React, { type MutableRefObject, useState, useRef, useEffect } from 'react';
+import React, {
+	type MutableRefObject,
+	useState,
+	useRef,
+	useEffect,
+} from 'react';
 
 import './styles.css';
 
@@ -72,7 +77,10 @@ export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent): void => {
-			if ((divRef.current != null) && !divRef.current.contains(event.target as Node)) {
+			if (
+				divRef.current != null &&
+				!divRef.current.contains(event.target as Node)
+			) {
 				// User clicked outside the div
 				setTableData(tableUnselected());
 			}
@@ -90,6 +98,19 @@ export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
 			...columnArray,
 			{ value: '', isSelected: false },
 		]);
+		const newTableData = { ...tableData, grid };
+		tableDataRef.current = newTableData;
+		setTableData(newTableData);
+	};
+
+	const addColumn = (): void => {
+		const len = tableData.grid[0].length;
+		const newColumn: Cell[] = [];
+		for (let i = 0; i < len; i++) {
+			newColumn.push({ value: '', isSelected: false });
+		}
+
+		const grid = [...tableData.grid, newColumn];
 		const newTableData = { ...tableData, grid };
 		tableDataRef.current = newTableData;
 		setTableData(newTableData);
@@ -117,9 +138,19 @@ export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
 					</ColumnCells>
 				))}
 			</div>
-			<button className="regular-btn" onClick={addRow}>
-				Adicionar linha
-			</button>
+			<div style={{ display: 'flex' }}>
+				<button className="regular-btn" onClick={addRow}>
+					Adicionar linha
+				</button>
+
+				<button
+					className="regular-btn"
+					style={{ marginLeft: 16 }}
+					onClick={addColumn}
+				>
+					Adicionar Coluna
+				</button>
+			</div>
 		</div>
 	);
 };

@@ -1,11 +1,21 @@
 .table-container {
+	display: flex;
+	flex-direction: column;
 	margin: 50px 60px;
+	max-width: 800px;
+	max-height: 300px;
+
+	overflow: scroll;
+	overflow-x: scroll;
+
+	background-color: cadetblue;
 }
 
 .table {
 	display: flex;
-	max-height: 300px;
+	width: 100%;
 	margin-bottom: 18px;
+	background-color: blanchedalmond;
 }
 
 .regular-btn {
@@ -17,15 +27,3 @@
 .regular-btn:active {
 	background-color: #159a9cc5;
 }
-/* .icon-btn {
-	padding: 4px;
-	margin-left: 8px;
-	border-radius: 12px;
-}
-
-.icon-btn:hover {
-	background-color: #159a9c;
-}
-.icon-btn:active {
-	background-color: #159a9cc9;
-} */
