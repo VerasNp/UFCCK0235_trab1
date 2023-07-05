@@ -2,14 +2,14 @@ import React, { useRef, useState } from 'react';
 import Home from '../../templates/home';
 import InsertData from '../../templates/insert_data';
 import Sidebar from '../../organisms/sidebar';
-
-import './styles.css';
 import { DisplayTable } from 'components/templates/display_table';
 import {
 	type ColumnOutputData,
 	type TableData,
 } from 'components/organisms/datasheet';
-import { type CellData } from 'components/atoms/cell';
+import { obtainTableData, tableDataFetched } from 'utils/io';
+
+import './styles.css';
 
 export enum ApplicationPage {
 	HOME,
@@ -18,92 +18,9 @@ export enum ApplicationPage {
 	ANALYSIS,
 }
 
-interface dataFetched {
-	data: Array<Record<string, string>>;
-	columns: Record<string, string>;
-}
-
-type TemporaryData = Record<string, { data: string[]; type: string }>;
-
-// Temporary, should be deleted after fetching of data is implemented and passed to Default Component
-const tableDataFetched = {
-	data: [
-		{
-			firstName: 'Elon',
-			lastNameFockingAwesomeIncredibleBlastingIdiot: 'Musk',
-			age: '38',
-			address: 'California',
-			pet: 'dog',
-			salary: '3500420',
-		},
-		{
-			firstName: 'Jeff',
-			lastNameFockingAwesomeIncredibleBlastingIdiot: 'Bezos',
-			age: '59',
-			address: 'Miami',
-			pet: 'tiger',
-			salary: '8504221',
-		},
-		{
-			firstName: 'Xuxa',
-			lastNameFockingAwesomeIncredibleBlastingIdiot: 'Meneguel',
-			age: '65',
-			address: 'São Paulo',
-			pet: 'Parrot',
-			salary: '600200.37',
-		},
-	],
-	columns: {
-		firstName: 'string',
-		lastNameFockingAwesomeIncredibleBlastingIdiot: 'string',
-		age: 'int',
-		address: 'string',
-		pet: 'string',
-		salary: 'float',
-	},
-};
-
-const obtainTableData = (data: TemporaryData): TableData => {
-	const grid: CellData[][] = [];
-	const columnTypes: string[] = [];
-	Object.keys(data).forEach((column) => {
-		let cells = data[column].data.map((value) => ({
-			value,
-			isSelected: false,
-		}));
-		cells = [{ value: column, isSelected: false }, ...cells];
-		grid.push(cells);
-		columnTypes.push(data[column].type);
-	});
-	return { grid, types: columnTypes };
-};
-
-const obtainTemporaryData = (data: dataFetched): TemporaryData => {
-	let nData: TemporaryData = {};
-	data.data.forEach((row) => {
-		Object.keys(row).forEach((key) => {
-			if (nData[key] !== undefined) {
-				nData[key].data.push(row[key]);
-			} else {
-				nData = {
-					...nData,
-					[key]: {
-						data: [row[key]],
-						type: data.columns[key],
-					},
-				};
-			}
-		});
-	});
-
-	return nData;
-};
-
 const Default: React.FC = () => {
 	const [appState, setAppState] = useState(ApplicationPage.DISPLAY_TABLE);
-	const tableDataRef = useRef<TableData>(
-		obtainTableData(obtainTemporaryData(tableDataFetched))
-	);
+	const tableDataRef = useRef<TableData>(obtainTableData(tableDataFetched));
 	const columnToAnalyseRef = useRef<ColumnOutputData>({
 		title: '',
 		data: [''],
