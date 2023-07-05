@@ -22,6 +22,7 @@
 		"@types/dotenv": "^8.2.0",
 		"@types/react": "^18.2.12",
 		"@types/react-dom": "^18.2.5",
+		"@types/styled-components": "^5.1.26",
 		"@types/webpack": "^5.28.1",
 		"@types/webpack-dev-server": "^4.7.2",
 		"@typescript-eslint/eslint-plugin": "^5.50.0",
@@ -50,8 +51,12 @@
 		"webpack-dev-server": "^4.15.1"
 	},
 	"dependencies": {
+		"axios": "^1.4.0",
 		"dotenv": "^16.3.1",
+		"dropzone": "^6.0.0-beta.2",
 		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"react-dom": "^18.2.0",
+		"react-dropzone": "^14.2.3",
+		"styled-components": "^6.0.2"
 	}
 }

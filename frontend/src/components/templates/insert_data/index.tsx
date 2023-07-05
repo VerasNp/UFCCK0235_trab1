@@ -4,10 +4,19 @@ import Snackbar from 'components/molecules/snackbar';
 
 interface Props {
 	onInsertManuallyClick: React.MouseEventHandler;
+	onInsertSendFileClick: React.MouseEventHandler;
 }
 
-const InsertData: React.FC<Props> = ({ onInsertManuallyClick }) => {
-	return <Snackbar onInsertManuallyClick={onInsertManuallyClick}></Snackbar>;
+const InsertData: React.FC<Props> = ({
+	onInsertManuallyClick,
+	onInsertSendFileClick,
+}) => {
+	return (
+		<Snackbar
+			onInsertManuallyClick={onInsertManuallyClick}
+			onInsertSendFileClick={onInsertSendFileClick}
+		/>
+	);
 };
 
 export default InsertData;

@@ -3,6 +3,7 @@ import Home from '../../templates/home';
 import InsertData from '../../templates/insert_data';
 import Display from 'components/templates/display_table';
 import Analysis from 'components/templates/analysis';
+import SelectFile from 'components/templates/select_file';
 
 import SidebarHome from '../../organisms/sidebar/sidebarhome';
 import SidebarInsert from 'components/organisms/sidebar/sidebarinsertdata';
@@ -13,6 +14,7 @@ import './styles.css';
 enum ApplicationPage {
 	HOME,
 	INSERT_DATA,
+	SELECT_FILE,
 	DISPLAY_TABLE,
 	ANALYSIS,
 }
@@ -40,6 +42,10 @@ const Default: React.FC = () => {
 		setAppState(ApplicationPage.DISPLAY_TABLE);
 	};
 
+	const handleInsertSendFileClick = (): void => {
+		setAppState(ApplicationPage.SELECT_FILE);
+	};
+
 	let sidebarToRender;
 	let pageToRender;
 
@@ -56,15 +62,23 @@ const Default: React.FC = () => {
 				<SidebarInsert onVoltarClick={handleVoltarHomeButtonClick} />
 			);
 			pageToRender = (
-				<InsertData onInsertManuallyClick={handleInsertManuallyClick} />
+				<InsertData
+					onInsertManuallyClick={handleInsertManuallyClick}
+					onInsertSendFileClick={handleInsertSendFileClick}
+				/>
 			);
+			break;
+		case ApplicationPage.SELECT_FILE:
+			sidebarToRender = (
+				<SidebarInsert onVoltarClick={handleVoltarInsertButtonClick} />
+			);
+			pageToRender = <SelectFile />;
 			break;
 		case ApplicationPage.DISPLAY_TABLE:
 			sidebarToRender = (
 				<SidebarData onVoltarClick={handleVoltarInsertButtonClick} />
 			);
 			pageToRender = <Display />;
-
 			break;
 		case ApplicationPage.ANALYSIS:
 			sidebarToRender = (
