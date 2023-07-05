@@ -1,0 +1,27 @@
+.bar {
+	display: block;
+	background-color: #b4bec9;
+	width: 924px;
+	height: 220px;
+	flex-shrink: 0;
+	border-radius: 10px;
+	margin-top: 50px;
+	margin-left: 120px;
+	font-family: 'Quicksand';
+}
+
+.question {
+	text-align: center;
+	color: #002333;
+	font-size: 32px;
+	font-family: Quicksand;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+}
+
+.buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}

@@ -1,18 +1,16 @@
-.sidebar {
+.header {
+	font-family: 'Quicksand';
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	font-family: 'Quicksand';
-	width: 395px;
-	height: 100%;
-	padding: 0px 10px;
-	background-color: #b4bec9;
+	color: #002333;
+	align-items: start;
+	margin: 38.5px 49px;
 }
 
 .description {
 	text-align: left;
 	color: #002333;
-	font-size: 20px;
+	font-size: 240px;
 	font-style: normal;
 	font-weight: 500;
 	line-height: normal;

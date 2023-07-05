@@ -1,7 +1,13 @@
 import React from 'react';
+import './styles.css';
+import Snackbar from 'components/molecules/snackbar';
 
-const InsertData: React.FC = () => {
-	return <>Main content of InsertData</>;
+interface Props {
+	onInsertManuallyClick: React.MouseEventHandler;
+}
+
+const InsertData: React.FC<Props> = ({ onInsertManuallyClick }) => {
+	return <Snackbar onInsertManuallyClick={onInsertManuallyClick}></Snackbar>;
 };
 
 export default InsertData;
