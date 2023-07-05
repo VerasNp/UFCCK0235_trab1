@@ -5,10 +5,13 @@ import Sidebar from '../../organisms/sidebar';
 
 import './styles.css';
 import { DisplayTable } from 'components/templates/display_table';
-import { type TableData } from 'components/organisms/datasheet';
+import {
+	type ColumnOutputData,
+	type TableData,
+} from 'components/organisms/datasheet';
 import { type CellData } from 'components/atoms/cell';
 
-enum ApplicationPage {
+export enum ApplicationPage {
 	HOME,
 	INSERT_DATA,
 	DISPLAY_TABLE,
@@ -22,6 +25,7 @@ interface dataFetched {
 
 type TemporaryData = Record<string, { data: string[]; type: string }>;
 
+// Temporary, should be deleted after fetching of data is implemented and passed to Default Component
 const tableDataFetched = {
 	data: [
 		{
@@ -100,6 +104,11 @@ const Default: React.FC = () => {
 	const tableDataRef = useRef<TableData>(
 		obtainTableData(obtainTemporaryData(tableDataFetched))
 	);
+	const columnToAnalyseRef = useRef<ColumnOutputData>({
+		title: '',
+		data: [''],
+		isNumeric: '0',
+	});
 
 	const handleInsertDataButtonClick = (): void => {
 		setAppState(ApplicationPage.INSERT_DATA);
@@ -116,9 +125,17 @@ const Default: React.FC = () => {
 			pageToRender = <InsertData />;
 			break;
 		case ApplicationPage.DISPLAY_TABLE:
-			pageToRender = <DisplayTable tableDataRef={tableDataRef} />;
+			pageToRender = (
+				<DisplayTable
+					tableDataRef={tableDataRef}
+					columnToAnalyzeRef={columnToAnalyseRef}
+					setAppState={setAppState}
+				/>
+			);
 			break;
 		case ApplicationPage.ANALYSIS:
+			pageToRender = <div>análise</div>;
+			console.log(columnToAnalyseRef.current);
 			// Not implemented
 			break;
 		default:

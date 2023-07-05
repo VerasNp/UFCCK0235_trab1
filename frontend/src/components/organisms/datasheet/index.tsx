@@ -3,6 +3,7 @@ import { ColumnCells } from 'components/atoms/column_cells';
 import { FloatCell } from 'components/atoms/float_cell';
 import { IntegerCell } from 'components/atoms/int_cell';
 import { TextCell } from 'components/atoms/text_cell';
+import { ApplicationPage } from 'components/pages/default';
 import React, {
 	type MutableRefObject,
 	useState,
@@ -12,8 +13,10 @@ import React, {
 
 import './styles.css';
 
-export interface Props {
+interface DataSheetProps {
 	tableDataRef: MutableRefObject<TableData>;
+	columnToAnalyzeRef: MutableRefObject<ColumnOutputData>;
+	setAppState: (state: ApplicationPage) => void;
 }
 
 export interface TableData {
@@ -22,8 +25,18 @@ export interface TableData {
 	columnSelected?: number;
 }
 
+export interface ColumnOutputData {
+	title: string;
+	isNumeric: string;
+	data: string[];
+}
+
 // When the user hit the save button, we update tableDataRef
-export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
+export const DataSheet: React.FC<DataSheetProps> = ({
+	tableDataRef,
+	columnToAnalyzeRef,
+	setAppState,
+}) => {
 	const [tableData, setTableData] = useState(tableDataRef.current);
 	const divRef = useRef<HTMLDivElement>(null);
 
@@ -48,6 +61,7 @@ export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
 		return tableData;
 	};
 
+	// updates the cells selected
 	const setCellSelected = (
 		table: TableData,
 		row: number,
@@ -80,6 +94,7 @@ export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
 		setTableData({ ...table, grid: newGrid, columnSelected: column });
 	};
 
+	// When the user click outside the table, all cells selected lose focus
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent): void => {
 			if (
@@ -97,6 +112,36 @@ export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
 			document.removeEventListener('click', handleClickOutside);
 		};
 	}, [tableData]);
+
+	// Verify if there is a column selected, if so, change the app state and the columnToAnalyzeRef
+	const handleCalculateClick = (): void => {
+		let output: ColumnOutputData;
+
+		if (tableData.columnSelected !== undefined) {
+			const selectedCells = tableData.grid[tableData.columnSelected].filter(
+				(cell) => cell.isSelected
+			);
+
+			if (selectedCells.length === 1) {
+				alert(
+					'Para realizar a análise, selecione uma coluna com mais de um dado'
+				);
+				return;
+			}
+
+			const title = selectedCells[0].value;
+			const data = selectedCells.slice(1).map((cell) => cell.value);
+			const isNumeric =
+				tableData.types[tableData.columnSelected] === 'string' ? '0' : '1';
+			output = { title, data, isNumeric };
+
+			columnToAnalyzeRef.current = output;
+			setAppState(ApplicationPage.ANALYSIS);
+
+			return;
+		}
+		alert('nenhuma célula selecionada ');
+	};
 
 	const addRow = (): void => {
 		const grid = tableData.grid.map((columnArray) => [
@@ -215,7 +260,11 @@ export const DataSheet: React.FC<Props> = ({ tableDataRef }) => {
 					</div>
 				</div>
 			</div>
-			<button id="calc-btn" className="regular-btn" onClick={() => {}}>
+			<button
+				id="calc-btn"
+				className="regular-btn"
+				onClick={handleCalculateClick}
+			>
 				Calcular <img style={{ marginLeft: 8 }} src="Calculator.svg" />
 			</button>
 		</div>

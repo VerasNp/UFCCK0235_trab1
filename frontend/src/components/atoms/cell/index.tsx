@@ -78,6 +78,7 @@ export const Cell: React.FC<GeneralCellProps> = ({
 		setInstantTitle(e.target.value);
 	};
 
+	// This function is required to maintain tableData updated
 	const saveInputToTable = (input: string): void => {
 		const grid = tableData.grid.map((c, cIndex) => {
 			if (cIndex === column) {
@@ -93,6 +94,7 @@ export const Cell: React.FC<GeneralCellProps> = ({
 		saveTable({ ...tableData, grid });
 	};
 
+	// Everytime a cell input changes, we validate if the input has the type specified by the column
 	const handleInputChanged = (input: string): void => {
 		// if the cell is a column title we just save it
 		if (row === 0) {
@@ -101,7 +103,7 @@ export const Cell: React.FC<GeneralCellProps> = ({
 		}
 
 		if (!isInputAllowed(input)) {
-			alert('Formato de dado incorreto');
+			alert(`Formato de dado incorreto`);
 			saveInputToTable('');
 			setInstantTitle('');
 		} else {
@@ -112,14 +114,12 @@ export const Cell: React.FC<GeneralCellProps> = ({
 	const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>): void => {
 		setInputActive(false);
 		handleInputChanged(e.target.value);
-		// saveInputToTable(e.target.value);
 	};
 
 	const handleKeyDown = (e: React.KeyboardEvent): void => {
 		if (e.key === 'Enter') {
 			setInputActive(false);
 			handleInputChanged(instantTitle);
-			// saveInputToTable(instantTitle);
 		}
 	};
 
