@@ -1,6 +1,7 @@
 package com.example.app.dto;
 
 import java.util.Vector;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 class Coluna{
   String titulo;
@@ -13,7 +14,7 @@ class Coluna{
     this.dados = dados;
     this.eNumerico = true;
     this.tamanho = dados.size();
-    
+
     for(String str: dados){
       if(!this.testeNumerico(str)){
         this.eNumerico = false;
@@ -37,5 +38,25 @@ class Coluna{
     }
 
     return true;
+  }
+
+  @JsonProperty("titulo")
+  public String getTitulo() {
+      return titulo;
+  }
+
+  @JsonProperty("eNumerico")
+  public Boolean getENumerico() {
+      return eNumerico;
+  }
+
+  @JsonProperty("tamanho")
+  public Integer getTamanho() {
+      return tamanho;
+  }
+
+  @JsonProperty("dados")
+  public Vector<String> getDados() {
+      return dados;
   }
 }
