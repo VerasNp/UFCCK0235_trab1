@@ -1,8 +1,10 @@
 package com.example.app.controllers;
 
+import java.util.Vector;
 import java.util.Hashtable;
 import java.lang.Math;
 import static java.util.Collections.sort;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class Dados_AB{
   abstract void calcular();
@@ -27,6 +29,7 @@ abstract class Transformador extends Dados_AB{
 }
 
 class Dados_Numericos extends Transformador{
+  @JsonIgnore
   Dados_AB dado_inicial;
 
   Double media = 0.0;
@@ -163,9 +166,77 @@ class Dados_Numericos extends Transformador{
 
     amplitude = maximo - minimo;
   }
+
+   @JsonProperty("media")
+   public Double getMedia() {
+       return media;
+   }
+  
+   @JsonProperty("mediana")
+   public Double getMediana() {
+       return mediana;
+   }
+  
+   @JsonProperty("moda")
+   public Double getModa() {
+       return moda;
+   }
+  
+   @JsonProperty("quartil_1")
+   public Double getQuartil_1() {
+       return quartil_1;
+   }
+  
+   @JsonProperty("quartil_3")
+   public Double getQuartil_3() {
+       return quartil_3;
+   }
+  
+   @JsonProperty("desvio_padrao_amostral")
+   public Double getDesvioPadraoAmostral() {
+       return desvio_padrao_amostral;
+   }
+  
+   @JsonProperty("desvio_padrao_populacional")
+   public Double getDesvioPadraoPopulacional() {
+       return desvio_padrao_populacional;
+   }
+  
+   @JsonProperty("varianca_populacional")
+   public Double getVariancaPopulacional() {
+       return varianca_populacional;
+   }
+  
+   @JsonProperty("varianca_amostral")
+   public Double getVariancaAmostral() {
+       return varianca_amostral;
+   }
+  
+   @JsonProperty("coeficiente_variacao")
+   public Double getCoeficienteVariacao() {
+       return coeficiente_variacao;
+   }
+  
+   @JsonProperty("maximo")
+   public Double getMaximo() {
+       return maximo;
+   }
+  
+   @JsonProperty("minimo")
+   public Double getMinimo() {
+       return minimo;
+   }
+  
+   @JsonProperty("amplitude")
+   public Double getAmplitude() {
+       return amplitude;
+   }
+ }
+
 }
 
 class Dados_Nao_Numericos extends Transformador{
+  @JsonIgnore
   Dados_AB dado_inicial;
   String moda;
 
@@ -210,5 +281,10 @@ class Dados_Nao_Numericos extends Transformador{
     }
 
     moda = str_max;
+  }
+
+  @JsonProperty("moda")
+  public Double getModa() {
+      return moda;
   }
 }
