@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,15 +22,13 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 
-import ch.qos.logback.core.rolling.TriggeringPolicy;
-
 
 @RestController
 @RequestMapping("/upload")
 public class FileUploadController {
 
     @PostMapping(value = "/csv", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
-    public ResponseEntity<List<String[]>> uploadCSVFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Vector<String[]>> uploadCSVFile(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -38,12 +37,13 @@ public class FileUploadController {
         }
         try {
             String csvContent = removeHtmlTags(file);
-            StringReader reader =  new StringReader(new String(file.getBytes()));
-            //Ou
             CSVReader csvReader = getCSVReader(csvContent); 
+
             List<String[]> tableString = alignColumns(csvReader); 
-            //TODO: colocar a tableString em um objeto que será retornado
-            return ResponseEntity.ok().body(tableString);
+            int columnSize = columnSize(tableString); 
+            Vector<String[]> columns = generateColumns(tableString,columnSize);
+            //TODO: columns será utilizada para transformar em objeto coluna e logo appós em objeto tabela
+            return ResponseEntity.ok().body(columns);
         } 
         catch (IOException | CsvValidationException  e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); 
@@ -122,4 +122,44 @@ public class FileUploadController {
         }
         return lineDestination; 
     }
+
+    private int columnSize(List<String[]> tableString){ 
+        return tableString.get(0).length;
+    }
+
+    private Vector<String[]> generateColumns(List<String[]> tableString, int columnNumber){  
+        Vector<String> vectorColumns = new Vector<String>(); 
+        boolean isFirstLine  = true ;
+        for (String[]line : tableString){ 
+            if (isFirstLine){ 
+                String[] tableLine = tableString.get(0);
+                processColumns(vectorColumns, tableLine, columnNumber, isFirstLine);
+                isFirstLine = false;
+            }
+            else{
+                processColumns(vectorColumns, line, columnNumber, isFirstLine);
+            }
+        }
+
+        Vector<String[]> columns = new Vector<String[]>(); 
+        for (String column : vectorColumns){ 
+            String[]splitedColumn = column.split(",");
+            columns.add(splitedColumn); 
+        }
+        return columns; 
+    }
+
+    private void processColumns(Vector<String> vectorColumns,String[] line,int columnNumber, boolean isFirstLine){ 
+        for (int i = 0; i < columnNumber; i++ ){
+            addCell(vectorColumns,line[i],i,isFirstLine);
+         }
+    }
+
+    private void addCell(Vector<String> vectorColumns, String cell, int vectorIndex, boolean isFirstLine){ 
+        if (isFirstLine)
+            vectorColumns.add(cell);
+        else
+            vectorColumns.set(vectorIndex, vectorColumns.get(vectorIndex) + "," + cell); 
+    }
+
 }
