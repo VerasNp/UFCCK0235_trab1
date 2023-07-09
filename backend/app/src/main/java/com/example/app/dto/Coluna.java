@@ -1,3 +1,5 @@
+package com.example.app.dto;
+
 import java.util.Vector;
 
 class Coluna{
