@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import './styles.css';
 
 import Button from 'components/atoms/button';
+import { uploadFile } from '../../../api/statisticApi/api';
 
 interface File {
 	name: string;
@@ -25,6 +25,10 @@ const CSVUploader: React.FC = () => {
 		}
 	};
 
+	const fetchFile = async (file: any): Promise<void> => {
+		await uploadFile(file);
+	};
+
 	const handleUpload = (): void => {
 		if (selectedFile == null) {
 			console.log('no file');
@@ -32,12 +36,13 @@ const CSVUploader: React.FC = () => {
 		}
 		const formData = new FormData();
 		formData.append('file', selectedFile?.blob);
-		console.log('Postando');
-		void axios.post('/bezkoder.com/upload', formData, {
-			headers: {
-				'Content-Type': 'multipart/form-data',
-			},
-		});
+		fetchFile(formData)
+			.then((data) => {
+				console.log(data);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
 	};
 
 	return (

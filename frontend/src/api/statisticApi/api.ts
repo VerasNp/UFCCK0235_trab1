@@ -2,9 +2,13 @@ import axios, { type Axios, type AxiosResponse } from 'axios';
 import { type IAnalysis } from './models/IAnalysis';
 
 export const statisticApi: Axios = axios.create({
-	baseURL: '',
+	baseURL: 'http://localhost:8081',
 });
 
 export const statisticCalcs = async (): Promise<AxiosResponse<IAnalysis>> => {
 	return await statisticApi.post<IAnalysis>('/api/statistic');
+};
+
+export const uploadFile = async (file: any): Promise<AxiosResponse<any>> => {
+	return await statisticApi.post<any>('/api/upload/csv', file);
 };
