@@ -1,0 +1,19 @@
+.radio {
+	margin: 0.5rem;
+	display: flex;
+	align-items: center;
+}
+
+input[type='radio'] {
+	color: red;
+	width: 1.4rem;
+	height: 1.4rem;
+}
+
+input[type='radio']:checked {
+	accent-color: #159a9c;
+}
+
+label {
+	padding-left: 0.5rem;
+}

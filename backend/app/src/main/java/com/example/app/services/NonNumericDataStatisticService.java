@@ -5,18 +5,18 @@ import com.example.app.dto.StatisticDTO;
 import com.example.app.models.Column;
 import com.example.app.services.interfaces.IStatisticService;
 
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 
 public class NonNumericDataStatisticService implements IStatisticService {
 
     @Override
     public StatisticDTO<NonNumericStatisticDTO> calculate(Column column) {
-        String mode = this.mode(column.getData());
 
-        NonNumericStatisticDTO nonNumericStatisticDTO = new NonNumericStatisticDTO();
+        StatisticDTO<NonNumericStatisticDTO> nonNumericStatisticDTO = new StatisticDTO<NonNumericStatisticDTO>();
         nonNumericStatisticDTO.source = column;
-        nonNumericStatisticDTO.mode = mode;
+        nonNumericStatisticDTO.analysisCalcs = new NonNumericStatisticDTO();
+        nonNumericStatisticDTO.analysisCalcs.mode = this.mode(column.getData());
+        nonNumericStatisticDTO.analysisCalcs.frequency = this.frequency(column.getData());;
         return nonNumericStatisticDTO;
     }
 
@@ -38,5 +38,23 @@ public class NonNumericDataStatisticService implements IStatisticService {
         }
 
         return modeElement;
+    }
+
+    protected Map<String, Double> frequency(List<String> data) {
+        Map<String, Double> frequency = new HashMap<>();
+        for (var dat:
+             data) {
+            String lowerCase = String.format(dat).replace("\"", "").toLowerCase();
+            double aux = frequency.getOrDefault(lowerCase.trim(), 0.0);
+            frequency.put(lowerCase.trim(), aux + 1);
+        }
+
+        for (String key:
+                frequency.keySet()) {
+            double aux = frequency.getOrDefault(key, 0.0);
+            frequency.put(key, (aux * 100) / data.size());
+        }
+
+        return frequency;
     }
 }
