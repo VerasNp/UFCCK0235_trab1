@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import './styles.css';
 
 import Button from 'components/atoms/button';
 
 interface File {
 	name: string;
+	blob: Blob;
 }
 
 const CSVUploader: React.FC = () => {
@@ -18,7 +19,7 @@ const CSVUploader: React.FC = () => {
 		if (file != null) {
 			const reader = new FileReader();
 			reader.onload = (e) => {
-				setSelectedFile({ name: file.name });
+				setSelectedFile({ name: file.name, blob: file });
 			};
 			reader.readAsText(file);
 		}
@@ -27,9 +28,16 @@ const CSVUploader: React.FC = () => {
 	const handleUpload = (): void => {
 		if (selectedFile == null) {
 			console.log('no file');
+			return;
 		}
-
-		console.log('enviando'); // aqui será feito o post para o backend
+		const formData = new FormData();
+		formData.append('file', selectedFile?.blob);
+		console.log('Postando');
+		void axios.post('/bezkoder.com/upload', formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+		});
 	};
 
 	return (
@@ -51,7 +59,7 @@ const CSVUploader: React.FC = () => {
 			</div>
 			{selectedFile != null && (
 				<div className="selected-file">
-					<h3> Arquivo selecionado </h3>
+					<h3> Arquivo selecionado: </h3>
 					<p>Selected File: {selectedFile.name}</p>
 					<Button
 						className="btn-snackbar"
