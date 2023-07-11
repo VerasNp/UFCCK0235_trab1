@@ -87,7 +87,9 @@ const Default: React.FC = () => {
 			pageToRender = <SelectFile />;
 			break;
 		case ApplicationPage.DISPLAY_TABLE:
-			sidebarToRender = <SidebarData onVoltarClick={handleVoltarButtonClick} />;
+			sidebarToRender = (
+				<SidebarData onVoltarClick={handleVoltarInsertButtonClick} />
+			);
 			pageToRender = (
 				<DisplayTable
 					tableDataRef={tableDataRef}
