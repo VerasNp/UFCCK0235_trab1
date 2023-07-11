@@ -1,19 +1,19 @@
 package com.example.app.services;
 
+import com.example.app.dto.StatisticDTO;
+import com.example.app.models.Column;
 import com.example.app.services.interfaces.IStatisticService;
-
-import java.util.List;
 
 public class StatisticServiceDecorator implements IStatisticService {
 
-    private IStatisticService wrapper;
+    private final IStatisticService wrapper;
 
     public StatisticServiceDecorator(IStatisticService statisticService) {
         this.wrapper = statisticService;
     }
 
     @Override
-    public void calculate(List<String> data) {
-        wrapper.calculate(data);
+    public StatisticDTO calculate(Column column) {
+        return wrapper.calculate(column);
     }
 }

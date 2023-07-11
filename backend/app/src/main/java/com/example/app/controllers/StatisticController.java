@@ -4,7 +4,6 @@ import com.example.app.dto.ColumnDTO;
 import com.example.app.models.Column;
 import com.example.app.services.NonNumericDataStatisticService;
 import com.example.app.services.NumericDataStatisticService;
-import com.example.app.services.StatisticServiceDecorator;
 import com.example.app.services.interfaces.IStatisticService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -36,8 +35,6 @@ public class StatisticController{
             statisticServiceDecorator = new NonNumericDataStatisticService();
         }
 
-        statisticServiceDecorator.calculate(column.getData());
-
-        return ResponseEntity.ok(column);
+        return ResponseEntity.ok(statisticServiceDecorator.calculate(column));
     }
 }

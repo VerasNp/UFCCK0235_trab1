@@ -1,7 +1,10 @@
 package com.example.app.services.interfaces;
 
+import com.example.app.dto.StatisticDTO;
+import com.example.app.models.Column;
+
 import java.util.List;
 
 public interface IStatisticService {
-    void calculate(List<String> data);
+    StatisticDTO calculate(Column data);
 }
