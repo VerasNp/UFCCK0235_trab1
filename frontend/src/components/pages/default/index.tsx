@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Home from '../../templates/home';
 import InsertData from '../../templates/insert_data';
-import Display from 'components/templates/display_table';
+import { DisplayTable } from 'components/templates/display_table';
+import {
+	type ColumnOutputData,
+	type TableData,
+} from 'components/organisms/datasheet';
+import { obtainTableData, tableDataFetched } from 'utils/io';
+
 import Analysis from 'components/templates/analysis';
 import SelectFile from 'components/templates/select_file';
 
@@ -11,7 +17,7 @@ import SidebarData from 'components/organisms/sidebar/sidebardata';
 
 import './styles.css';
 
-enum ApplicationPage {
+export enum ApplicationPage {
 	HOME,
 	INSERT_DATA,
 	SELECT_FILE,
@@ -20,7 +26,13 @@ enum ApplicationPage {
 }
 
 const Default: React.FC = () => {
-	const [appState, setAppState] = useState(ApplicationPage.HOME);
+	const [appState, setAppState] = useState(ApplicationPage.DISPLAY_TABLE);
+	const tableDataRef = useRef<TableData>(obtainTableData(tableDataFetched));
+	const columnToAnalyseRef = useRef<ColumnOutputData>({
+		title: '',
+		data: [''],
+		isNumeric: '0',
+	});
 
 	const handleInsertDataButtonClick = (): void => {
 		setAppState(ApplicationPage.INSERT_DATA);
@@ -75,16 +87,21 @@ const Default: React.FC = () => {
 			pageToRender = <SelectFile />;
 			break;
 		case ApplicationPage.DISPLAY_TABLE:
-			sidebarToRender = (
-				<SidebarData onVoltarClick={handleVoltarInsertButtonClick} />
+			sidebarToRender = <SidebarData onVoltarClick={handleVoltarButtonClick} />;
+			pageToRender = (
+				<DisplayTable
+					tableDataRef={tableDataRef}
+					columnToAnalyzeRef={columnToAnalyseRef}
+					setAppState={setAppState}
+				/>
 			);
-			pageToRender = <Display />;
 			break;
 		case ApplicationPage.ANALYSIS:
 			sidebarToRender = (
 				<SidebarData onVoltarClick={handleVoltarDisplayButtonClick} />
 			);
 			pageToRender = <Analysis />;
+			console.log(columnToAnalyseRef.current);
 			break;
 		default:
 			sidebarToRender = (
