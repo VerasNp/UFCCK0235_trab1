@@ -1,0 +1,40 @@
+.upload-box {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background-color: #b4bec9;
+	width: 924px;
+	height: 600px;
+	border-radius: 10px;
+	margin: 50px 0 0 120px;
+	font-family: 'Quicksand';
+}
+
+.upload-card {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #edf2fe;
+	border: 3px dashed #159a9c;
+	border-radius: 10px;
+	width: 600px;
+	height: 300px;
+	margin: 0 auto;
+}
+
+.input {
+	position: relative;
+	width: 600px;
+	height: 300px;
+	z-index: 2;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.selected-file {
+	display: flex;
+	text-align: center;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}

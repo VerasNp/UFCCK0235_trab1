@@ -4,9 +4,13 @@ import Button from 'components/atoms/button';
 
 interface Props {
 	onInsertManuallyClick: React.MouseEventHandler;
+	onInsertSendFileClick: React.MouseEventHandler;
 }
 
-const Snackbar: React.FC<Props> = ({ onInsertManuallyClick }) => {
+const Snackbar: React.FC<Props> = ({
+	onInsertManuallyClick,
+	onInsertSendFileClick,
+}) => {
 	return (
 		<div className="bar">
 			<p className="question">
@@ -28,6 +32,7 @@ const Snackbar: React.FC<Props> = ({ onInsertManuallyClick }) => {
 					type={'button'}
 					className={'btn-snackbar'}
 					text={'Inserir Arquivo'}
+					onClick={onInsertSendFileClick}
 				/>
 			</div>
 		</div>

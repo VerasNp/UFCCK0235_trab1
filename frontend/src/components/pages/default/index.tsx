@@ -9,6 +9,7 @@ import {
 import { obtainTableData, tableDataFetched } from 'utils/io';
 
 import Analysis from 'components/templates/analysis';
+import SelectFile from 'components/templates/select_file';
 
 import SidebarHome from '../../organisms/sidebar/sidebarhome';
 import SidebarInsert from 'components/organisms/sidebar/sidebarinsertdata';
@@ -19,6 +20,7 @@ import './styles.css';
 export enum ApplicationPage {
 	HOME,
 	INSERT_DATA,
+	SELECT_FILE,
 	DISPLAY_TABLE,
 	ANALYSIS,
 }
@@ -36,12 +38,24 @@ const Default: React.FC = () => {
 		setAppState(ApplicationPage.INSERT_DATA);
 	};
 
-	const handleVoltarButtonClick = (): void => {
+	const handleVoltarHomeButtonClick = (): void => {
 		setAppState(ApplicationPage.HOME);
+	};
+
+	const handleVoltarInsertButtonClick = (): void => {
+		setAppState(ApplicationPage.INSERT_DATA);
+	};
+
+	const handleVoltarDisplayButtonClick = (): void => {
+		setAppState(ApplicationPage.DISPLAY_TABLE);
 	};
 
 	const handleInsertManuallyClick = (): void => {
 		setAppState(ApplicationPage.DISPLAY_TABLE);
+	};
+
+	const handleInsertSendFileClick = (): void => {
+		setAppState(ApplicationPage.SELECT_FILE);
 	};
 
 	let sidebarToRender;
@@ -57,11 +71,20 @@ const Default: React.FC = () => {
 			break;
 		case ApplicationPage.INSERT_DATA:
 			sidebarToRender = (
-				<SidebarInsert onVoltarClick={handleVoltarButtonClick} />
+				<SidebarInsert onVoltarClick={handleVoltarHomeButtonClick} />
 			);
 			pageToRender = (
-				<InsertData onInsertManuallyClick={handleInsertManuallyClick} />
+				<InsertData
+					onInsertManuallyClick={handleInsertManuallyClick}
+					onInsertSendFileClick={handleInsertSendFileClick}
+				/>
 			);
+			break;
+		case ApplicationPage.SELECT_FILE:
+			sidebarToRender = (
+				<SidebarInsert onVoltarClick={handleVoltarInsertButtonClick} />
+			);
+			pageToRender = <SelectFile />;
 			break;
 		case ApplicationPage.DISPLAY_TABLE:
 			sidebarToRender = <SidebarData onVoltarClick={handleVoltarButtonClick} />;
@@ -74,7 +97,9 @@ const Default: React.FC = () => {
 			);
 			break;
 		case ApplicationPage.ANALYSIS:
-			sidebarToRender = <SidebarData onVoltarClick={handleVoltarButtonClick} />;
+			sidebarToRender = (
+				<SidebarData onVoltarClick={handleVoltarDisplayButtonClick} />
+			);
 			pageToRender = <Analysis />;
 			console.log(columnToAnalyseRef.current);
 			break;
