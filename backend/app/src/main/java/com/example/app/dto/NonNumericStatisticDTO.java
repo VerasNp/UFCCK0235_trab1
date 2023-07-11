@@ -1,5 +1,8 @@
 package com.example.app.dto;
 
-public class NonNumericStatisticDTO extends StatisticDTO<NonNumericStatisticDTO> {
+import java.util.Map;
+
+public class NonNumericStatisticDTO{
     public String mode;
+    public Map<String, Double> frequency;
 }

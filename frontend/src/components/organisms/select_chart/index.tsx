@@ -23,25 +23,25 @@ const SelectChart: React.FC<Props> = ({ dataType, setChart }) => {
 					<div>
 						<RadioButton
 							name={'chart'}
-							label={'test1'}
+							label={'Pizza'}
 							value={ChartsEnum.PIE}
 							onChange={handleChartSelection}
 						/>
 						<RadioButton
 							name={'chart'}
-							label={'test2'}
+							label={'Histograma'}
 							value={ChartsEnum.HISTOGRAM}
 							onChange={handleChartSelection}
 						/>
 						<RadioButton
 							name={'chart'}
-							label={'test3'}
+							label={'Barras'}
 							value={ChartsEnum.BAR}
 							onChange={handleChartSelection}
 						/>
 						<RadioButton
 							name={'chart'}
-							label={'test4'}
+							label={'Box Plot'}
 							value={ChartsEnum.BOX_PLOT}
 							onChange={handleChartSelection}
 						/>
@@ -50,26 +50,14 @@ const SelectChart: React.FC<Props> = ({ dataType, setChart }) => {
 					<div>
 						<RadioButton
 							name={'chart'}
-							label={'test5'}
+							label={'Pizza'}
 							value={ChartsEnum.PIE}
 							onChange={handleChartSelection}
 						/>
 						<RadioButton
 							name={'chart'}
-							label={'test6'}
-							value={ChartsEnum.BOX_PLOT}
-							onChange={handleChartSelection}
-						/>
-						<RadioButton
-							name={'chart'}
-							label={'test7'}
+							label={'Barras'}
 							value={ChartsEnum.BAR}
-							onChange={handleChartSelection}
-						/>
-						<RadioButton
-							name={'chart'}
-							label={'test8'}
-							value={ChartsEnum.HISTOGRAM}
 							onChange={handleChartSelection}
 						/>
 					</div>

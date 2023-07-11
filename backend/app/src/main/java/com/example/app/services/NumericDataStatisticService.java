@@ -5,9 +5,9 @@ import com.example.app.dto.StatisticDTO;
 import com.example.app.models.Column;
 import com.example.app.services.interfaces.IStatisticService;
 
-import java.util.Hashtable;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
+
+import static java.lang.Math.ceil;
 
 public class NumericDataStatisticService implements IStatisticService {
 
@@ -15,22 +15,24 @@ public class NumericDataStatisticService implements IStatisticService {
     public StatisticDTO<NumericStatisticDTO> calculate(Column column) {
         List<Double> numericData = column.getData().stream()
                 .map(Double::parseDouble).toList();
-        NumericStatisticDTO numericStatisticDTO = new NumericStatisticDTO();
+        StatisticDTO<NumericStatisticDTO> numericStatisticDTO = new StatisticDTO<NumericStatisticDTO>();
         numericStatisticDTO.source = column;
-        numericStatisticDTO.mean = this.mean(numericData);
-        numericStatisticDTO.mode = this.mode(numericData);
-        numericStatisticDTO.median = this.median(numericData);
-        numericStatisticDTO.firstQuartile = this.firstQuartile(numericData);
-        numericStatisticDTO.secondQuartile = this.secondQuartile(numericData);
-        numericStatisticDTO.varianceSum = this.varianceSum(numericData);
-        numericStatisticDTO.sampleVariance = this.sampleVariance(numericData);
-        numericStatisticDTO.populationVariance = this.populationVariance(numericData);
-        numericStatisticDTO.sampleStandardDeviation = this.sampleStandardDeviation(numericData);
-        numericStatisticDTO.populationStandardDeviation = this.populationStandardDeviation(numericData);
-        numericStatisticDTO.coefficientVariation = this.coefficientVariation(numericData);
-        numericStatisticDTO.maximum = this.maximum(numericData);
-        numericStatisticDTO.minimum = this.minimum(numericData);
-        numericStatisticDTO.amplitude = this.amplitude(numericData);
+        numericStatisticDTO.analysisCalcs = new NumericStatisticDTO();
+        numericStatisticDTO.analysisCalcs.mean = this.mean(numericData);
+        numericStatisticDTO.analysisCalcs.mode = this.mode(numericData);
+        numericStatisticDTO.analysisCalcs.median = this.median(numericData);
+        numericStatisticDTO.analysisCalcs.firstQuartile = this.firstQuartile(numericData);
+        numericStatisticDTO.analysisCalcs.thirdQuartile = this.thirdQuartile(numericData);
+        numericStatisticDTO.analysisCalcs.varianceSum = this.varianceSum(numericData);
+        numericStatisticDTO.analysisCalcs.sampleVariance = this.sampleVariance(numericData);
+        numericStatisticDTO.analysisCalcs.populationVariance = this.populationVariance(numericData);
+        numericStatisticDTO.analysisCalcs.sampleStandardDeviation = this.sampleStandardDeviation(numericData);
+        numericStatisticDTO.analysisCalcs.populationStandardDeviation = this.populationStandardDeviation(numericData);
+        numericStatisticDTO.analysisCalcs.coefficientVariation = this.coefficientVariation(numericData);
+        numericStatisticDTO.analysisCalcs.maximum = this.maximum(numericData);
+        numericStatisticDTO.analysisCalcs.minimum = this.minimum(numericData);
+        numericStatisticDTO.analysisCalcs.amplitude = this.amplitude(numericData);
+        numericStatisticDTO.analysisCalcs.frequency = this.frequency(numericData);
 
         return numericStatisticDTO;
     }
@@ -89,28 +91,32 @@ public class NumericDataStatisticService implements IStatisticService {
 
     protected Double firstQuartile(List<Double> data) {
         double firstQuartile = 0.0;
-        if (data.size() > 4) {
-            double pos = ((double) data.size() / 4) - 1;
-            if (data.size() % 4 != 0) {
-                firstQuartile = Double.parseDouble(String.valueOf(data.get((int) (pos + 1))));
+        List<Double> sortedData = new ArrayList<>(data);
+        sortedData.sort(Comparator.naturalOrder());
+        if (sortedData.size() > 4) {
+            double pos = ((double) sortedData.size() / 4);
+            if (pos != (int) pos) {
+                firstQuartile = Double.parseDouble(String.valueOf(sortedData.get((int) ceil(pos) - 1)));
             } else {
-                firstQuartile = (Double.parseDouble(String.valueOf(data.get((int) pos))) + Double.parseDouble(String.valueOf(data.get((int) pos + 1)))) / 2;
+                firstQuartile = (Double.parseDouble(String.valueOf(sortedData.get((int) pos))) + Double.parseDouble(String.valueOf(sortedData.get((int) pos + 1)))) / 2;
             }
         }
         return firstQuartile;
     }
 
-    protected Double secondQuartile(List<Double> data) {
-        double secondQuartile = 0.0;
-        if (data.size() > 4) {
-            double pos = ((double) (3 * data.size()) / 4) - 1;
-            if (data.size() % 4 != 0) {
-                secondQuartile = Double.parseDouble(String.valueOf(data.get((int) pos + 1)));
+    protected Double thirdQuartile(List<Double> data) {
+        double thirdQuartile = 0.0;
+        List<Double> sortedData = new ArrayList<>(data);
+        sortedData.sort(Comparator.naturalOrder());
+        if (sortedData.size() > 4) {
+            double pos = ((double) (3 * sortedData.size()) / 4);
+            if (pos != (int) pos) {
+                thirdQuartile = Double.parseDouble(String.valueOf(sortedData.get((int) ceil(pos) - 1)));
             } else {
-                secondQuartile = (Double.parseDouble(String.valueOf(data.get((int) pos))) + Double.parseDouble(String.valueOf(data.get((int) pos + 1)))) / 2;
+                thirdQuartile = (Double.parseDouble(String.valueOf(sortedData.get((int) pos))) + Double.parseDouble(String.valueOf(sortedData.get((int) pos + 1)))) / 2;
             }
         }
-        return secondQuartile;
+        return thirdQuartile;
     }
 
     protected Double varianceSum(List<Double> data) {
@@ -143,6 +149,7 @@ public class NumericDataStatisticService implements IStatisticService {
 
     /**
      * Measure of dispersion
+     *
      * @return
      */
     protected Double coefficientVariation(List<Double> data) {
@@ -169,4 +176,20 @@ public class NumericDataStatisticService implements IStatisticService {
         return this.maximum(data) - this.minimum(data);
     }
 
+    protected Map<Double, Double> frequency(List<Double> data) {
+        Map<Double, Double> frequency = new HashMap<>();
+        for (var dat:
+                data) {
+            double aux = frequency.getOrDefault(dat, 0.0);
+            frequency.put(dat, aux + 1);
+        }
+
+        for (var key:
+                frequency.keySet()) {
+            double aux = frequency.getOrDefault(key, 0.0);
+            frequency.put(key, (aux * 100) / data.size());
+        }
+
+        return frequency;
+    }
 }
