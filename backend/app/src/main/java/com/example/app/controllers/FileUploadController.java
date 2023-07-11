@@ -24,7 +24,7 @@ import com.opencsv.exceptions.CsvValidationException;
 
 
 @RestController
-@RequestMapping("/upload")
+@RequestMapping("/api/upload")
 public class FileUploadController {
 
     @PostMapping(value = "/csv", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
