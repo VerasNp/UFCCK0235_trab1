@@ -25,6 +25,7 @@ export interface TableData {
 	grid: CellData[][];
 	types: string[];
 	columnSelected?: number;
+	rowSelected?: number;
 }
 
 export interface ColumnOutputData {
@@ -32,6 +33,61 @@ export interface ColumnOutputData {
 	isNumeric: string;
 	data: string[];
 }
+
+interface ContextMenuProps {
+	xPos: number;
+	yPos: number;
+	onClose: () => void;
+	handleRemoveColumn: () => void;
+	handleRemoveRow: () => void;
+}
+const ContextMenu: React.FC<ContextMenuProps> = ({
+	xPos,
+	yPos,
+	onClose,
+	handleRemoveColumn,
+	handleRemoveRow,
+}) => {
+	// Define menu items and their actions
+	const menuItems = [
+		{
+			label: 'Remover coluna',
+			action: () => {
+				handleRemoveColumn();
+			},
+		},
+		{
+			label: 'Remover linha',
+			action: () => {
+				handleRemoveRow();
+			},
+		},
+	];
+
+	// Handle click on menu item
+	const handleItemClick = (action: () => void): void => {
+		action();
+		onClose();
+	};
+
+	return (
+		<div
+			className="context-menu"
+			style={{ position: 'absolute', top: yPos, left: xPos }}
+		>
+			{menuItems.map((item, index) => (
+				<button
+					key={index}
+					onClick={() => {
+						handleItemClick(item.action);
+					}}
+				>
+					{item.label}
+				</button>
+			))}
+		</div>
+	);
+};
 
 // When the user hit the save button, we update tableDataRef
 export const DataSheet: React.FC<DataSheetProps> = ({
@@ -43,6 +99,21 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 	const divRef = useRef<HTMLDivElement>(null);
 
 	console.log(tableDataRef.current);
+
+	const [contextMenuPos, setContextMenuPos] = useState({ xPos: 0, yPos: 0 });
+	const [showContextMenu, setShowContextMenu] = useState(false);
+
+	const handleContextMenu = (event: React.MouseEvent): void => {
+		event.preventDefault();
+		const xPos = event.pageX;
+		const yPos = event.pageY;
+		setContextMenuPos({ xPos, yPos });
+		setShowContextMenu(true);
+	};
+
+	const closeContextMenu = (): void => {
+		setShowContextMenu(false);
+	};
 
 	const saveTable = (data: TableData): void => {
 		setTableData(data);
@@ -77,7 +148,12 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				}
 				return columnArray;
 			});
-			setTableData({ ...table, grid: newGrid, columnSelected: column });
+			setTableData({
+				...table,
+				grid: newGrid,
+				columnSelected: column,
+				rowSelected: row,
+			});
 			return;
 		}
 
@@ -103,6 +179,10 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				divRef.current != null &&
 				!divRef.current.contains(event.target as Node)
 			) {
+				if (showContextMenu) {
+					setShowContextMenu(false);
+					return;
+				}
 				setTableData(tableUnselected());
 			}
 		};
@@ -112,7 +192,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 		return () => {
 			document.removeEventListener('click', handleClickOutside);
 		};
-	}, [tableData]);
+	}, [tableData, showContextMenu]);
 
 	// Verify if there is a column selected, if so, change the app state and the columnToAnalyzeRef
 	const handleCalculateClick = (): void => {
@@ -179,6 +259,37 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 		setTableData(newTableData);
 	};
 
+	const removeColumn = (): void => {
+		const grid = tableData.grid.filter(
+			(_, index) => index !== tableData.columnSelected
+		);
+		const types = tableData.types.filter(
+			(_, index) => index !== tableData.columnSelected
+		);
+		const newTableData = {
+			...tableData,
+			grid,
+			types,
+		};
+
+		tableDataRef.current = newTableData;
+		setTableData(newTableData);
+	};
+
+	const removeRow = (): void => {
+		console.log(tableData.rowSelected);
+		const grid = tableData.grid.map((column) => {
+			return column.filter((_, index) => index !== tableData.rowSelected);
+		});
+		const newTableData = {
+			...tableData,
+			grid,
+		};
+
+		tableDataRef.current = newTableData;
+		setTableData(newTableData);
+	};
+
 	const addStringColumn = (): void => {
 		addColumn('string');
 	};
@@ -190,7 +301,20 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 	};
 
 	return (
-		<div className="table-container" ref={divRef}>
+		<div
+			className="table-container"
+			ref={divRef}
+			onContextMenu={handleContextMenu}
+		>
+			{showContextMenu && (
+				<ContextMenu
+					xPos={contextMenuPos.xPos}
+					yPos={contextMenuPos.yPos}
+					handleRemoveColumn={removeColumn}
+					handleRemoveRow={removeRow}
+					onClose={closeContextMenu}
+				/>
+			)}
 			<div className="table">
 				{tableData.grid.map((columnArray, columnIndex) => (
 					<ColumnCells key={columnIndex}>

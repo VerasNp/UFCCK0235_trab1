@@ -6,6 +6,21 @@
 	width: 100%;
 }
 
+.context-menu {
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+}
+
+.context-menu button {
+	width: calc(100%);
+	padding: 12px 32px;
+}
+
+.context-menu button:hover {
+	background-color: rgb(227, 223, 223);
+}
+
 .table {
 	display: flex;
 	width: 100%;

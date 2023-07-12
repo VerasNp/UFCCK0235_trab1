@@ -28,7 +28,13 @@ const Default: React.FC = () => {
 		grid: [[{ value: '', isSelected: false }]],
 		types: ['string'],
 	});
-	const statisticalDataRef = useRef<IAnalysis | null>(null);
+
+	// source: IColumn;
+	// analysisCalcs: INumericStatisticData | INonNumericStatisticData;
+	const statisticalDataRef = useRef<IAnalysis>({
+		source: { data: ['sim'], title: '', numericData: false },
+		analysisCalcs: { mode: '', frequency: {} },
+	});
 	const handleInsertDataButtonClick = (): void => {
 		setAppState(ApplicationPage.INSERT_DATA);
 	};

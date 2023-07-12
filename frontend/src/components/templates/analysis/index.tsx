@@ -8,7 +8,7 @@ import { type IAnalysis } from '../../../api/statisticApi/models/IAnalysis';
 import { getTranslation } from '../../bosons/translation';
 
 interface AnalysisProps {
-	statisticalDataRef: MutableRefObject<IAnalysis | null>;
+	statisticalDataRef: MutableRefObject<IAnalysis>;
 }
 
 const Analysis: React.FC<AnalysisProps> = ({ statisticalDataRef }) => {
