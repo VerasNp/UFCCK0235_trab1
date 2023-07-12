@@ -22,8 +22,9 @@ public class StatisticController{
         this.modelMapper = new ModelMapper();
     }
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Object> calculateStatisticMeasurements(@Valid @ModelAttribute ColumnDTO columnDTO) {
+    @PostMapping()
+    public ResponseEntity<Object> calculateStatisticMeasurements(@Valid @RequestBody ColumnDTO columnDTO) {
+        System.out.println(columnDTO);
 
         Column column = new Column();
         this.modelMapper.map(columnDTO, column);
