@@ -118,7 +118,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 	const handleCalculateClick = (): void => {
 		if (tableData?.columnSelected !== undefined) {
 			const selectedCells = tableData.grid[tableData.columnSelected].filter(
-				(cell) => cell.isSelected
+				(cell) => cell.value !== '' && cell.isSelected
 			);
 
 			if (selectedCells.length === 1) {
