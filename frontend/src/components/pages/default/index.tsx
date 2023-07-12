@@ -79,7 +79,9 @@ const Default: React.FC = () => {
 			sidebarToRender = (
 				<SidebarInsert onVoltarClick={handleVoltarInsertButtonClick} />
 			);
-			pageToRender = <SelectFile setAppState={setAppState} />;
+			pageToRender = (
+				<SelectFile tableDataRef={tableDataRef} setAppState={setAppState} />
+			);
 			break;
 		case ApplicationPage.DISPLAY_TABLE:
 			sidebarToRender = (

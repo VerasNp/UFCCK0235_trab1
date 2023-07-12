@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { type MutableRefObject, useState } from 'react';
 import './styles.css';
 
 import Button from 'components/atoms/button';
@@ -13,12 +13,12 @@ interface File {
 }
 
 interface Props {
+	tableDataRef: MutableRefObject<TableData>;
 	setAppState: (state: ApplicationPage) => void;
 }
 
-const CSVUploader: React.FC<Props> = ({ setAppState }) => {
+const CSVUploader: React.FC<Props> = ({ tableDataRef, setAppState }) => {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
-	const tableDataRef = useRef<TableData>();
 
 	const handleFileChange = (
 		event: React.ChangeEvent<HTMLInputElement>
