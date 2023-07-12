@@ -42,7 +42,7 @@ public class NumericDataStatisticService implements IStatisticService {
      * @param data
      * @return
      */
-    protected String mode(List<String> data) {
+    protected Double mode(List<String> data) {
         Hashtable<String, Integer> auxMode = new Hashtable<>();
         int maxFreq = 1;
         String modeElement = data.get(0);
@@ -64,7 +64,7 @@ public class NumericDataStatisticService implements IStatisticService {
             }
         }
 
-        return modeElement;
+        return Double.valueOf(modeElement);
     }
 
     /**

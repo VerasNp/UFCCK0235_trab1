@@ -2,10 +2,7 @@ import React, { useRef, useState } from 'react';
 import Home from '../../templates/home';
 import InsertData from '../../templates/insert_data';
 import { DisplayTable } from 'components/templates/display_table';
-import {
-	type ColumnOutputData,
-	type TableData,
-} from 'components/organisms/datasheet';
+import { type TableData } from 'components/organisms/datasheet';
 import { obtainTableData, tableDataFetched } from 'utils/io';
 
 import Analysis from 'components/templates/analysis';
@@ -16,6 +13,7 @@ import SidebarInsert from 'components/organisms/sidebar/sidebarinsertdata';
 import SidebarData from 'components/organisms/sidebar/sidebardata';
 
 import './styles.css';
+import { type IAnalysis } from 'api/statisticApi/models/IAnalysis';
 
 export enum ApplicationPage {
 	HOME,
@@ -28,10 +26,16 @@ export enum ApplicationPage {
 const Default: React.FC = () => {
 	const [appState, setAppState] = useState(ApplicationPage.DISPLAY_TABLE);
 	const tableDataRef = useRef<TableData>(obtainTableData(tableDataFetched));
-	const columnToAnalyseRef = useRef<ColumnOutputData>({
-		title: '',
-		data: [''],
-		isNumeric: '0',
+	// const columnToAnalyseRef = useRef<ColumnOutputData>({
+	// 	title: '',
+	// 	data: [''],
+	// 	isNumeric: '0',
+	// });
+	// const statisticalDataRef = useRef<INonNumericStatisticData | INonNumericStatisticData>({mode: "0", frequency: {}})
+	// source: IColumn;
+	const statisticalDataRef = useRef<IAnalysis>({
+		source: { title: 'eae', numericData: false, data: ['oi'] },
+		analysisCalcs: { mode: '0', frequency: {} },
 	});
 
 	const handleInsertDataButtonClick = (): void => {
@@ -93,7 +97,7 @@ const Default: React.FC = () => {
 			pageToRender = (
 				<DisplayTable
 					tableDataRef={tableDataRef}
-					columnToAnalyzeRef={columnToAnalyseRef}
+					statisticalDataRef={statisticalDataRef}
 					setAppState={setAppState}
 				/>
 			);
@@ -102,8 +106,7 @@ const Default: React.FC = () => {
 			sidebarToRender = (
 				<SidebarData onVoltarClick={handleVoltarDisplayButtonClick} />
 			);
-			pageToRender = <Analysis />;
-			console.log(columnToAnalyseRef.current);
+			pageToRender = <Analysis statisticalDataRef={statisticalDataRef} />;
 			break;
 		default:
 			sidebarToRender = (

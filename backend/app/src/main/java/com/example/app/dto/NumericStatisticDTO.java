@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class NumericStatisticDTO{
     public Double mean;
-    public String mode;
+    public Double mode;
     public Double median;
     public Double firstQuartile;
     public Double thirdQuartile;
