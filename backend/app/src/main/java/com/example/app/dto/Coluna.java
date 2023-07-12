@@ -1,24 +1,51 @@
 package com.example.app.dto;
 
-import java.util.Vector;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-class Coluna{
-  String titulo;
-  Boolean eNumerico;
-  Integer tamanho;
-  Vector<String> dados = new Vector<String>();
+import java.util.Vector;
 
-  Coluna(String titulo, Vector<String> dados){
+public class Coluna{
+  public  String titulo;
+  public  Boolean eNumerico;
+  public  Integer tamanho;
+  public  String tipo;
+  public  Vector<String> dados = new Vector<String>();
+
+  public  Coluna(String titulo, Vector<String> dados){
+    boolean todasVazias = true;
+
+    for (String str : dados) {
+      if (!str.isEmpty()) {
+        todasVazias = false;
+        break;
+      }
+    }
+
+    if(todasVazias){
+      this.titulo = titulo;
+      this.dados = dados;
+      this.eNumerico = false;
+      this.tipo = "string";
+      this.tamanho = dados.size();
+      return;
+    }
+
     this.titulo = titulo;
     this.dados = dados;
     this.eNumerico = true;
+    this.tipo = "int";
     this.tamanho = dados.size();
 
     for(String str: dados){
       if(!this.testeNumerico(str)){
         this.eNumerico = false;
+        this.tipo = "string";
+
         break;
+      }
+
+      if(!this.testeInt(str) && this.eNumerico){
+        this.tipo = "float";
       }
     }
 
@@ -26,15 +53,29 @@ class Coluna{
 
   Boolean testeNumerico(String strNum) {
     if (strNum == null) {
-        return false;
+      return false;
     }
 
-    try {
-      double d = Double.parseDouble(strNum);
+    if(strNum != ""){
+      try {
+        double d = Double.parseDouble(strNum);
 
-    } catch (Exception e) {
-      return false;
 
+      } catch (Exception e) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  Boolean testeInt(String strNum){
+    if(strNum != ""){
+      try{
+        int intValue = Integer.parseInt(strNum);
+      }catch(Exception e){
+        return false;
+      }
     }
 
     return true;
@@ -42,21 +83,26 @@ class Coluna{
 
   @JsonProperty("titulo")
   public String getTitulo() {
-      return titulo;
+    return titulo;
   }
 
   @JsonProperty("eNumerico")
   public Boolean getENumerico() {
-      return eNumerico;
+    return eNumerico;
   }
 
   @JsonProperty("tamanho")
   public Integer getTamanho() {
-      return tamanho;
+    return tamanho;
   }
 
   @JsonProperty("dados")
   public Vector<String> getDados() {
-      return dados;
+    return dados;
+  }
+
+  @JsonProperty("tipo")
+  public String getTipo() {
+    return tipo;
   }
 }

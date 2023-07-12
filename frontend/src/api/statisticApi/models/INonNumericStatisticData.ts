@@ -1,4 +1,4 @@
 export interface INonNumericStatisticData {
 	mode: string;
-	frequency: object;
+	frequency: Record<string, number>;
 }

@@ -2,11 +2,7 @@ import React, { useRef, useState } from 'react';
 import Home from '../../templates/home';
 import InsertData from '../../templates/insert_data';
 import { DisplayTable } from 'components/templates/display_table';
-import {
-	type ColumnOutputData,
-	type TableData,
-} from 'components/organisms/datasheet';
-import { obtainTableData, tableDataFetched } from 'utils/io';
+import { type TableData } from 'components/organisms/datasheet';
 
 import Analysis from 'components/templates/analysis';
 import SelectFile from 'components/templates/select_file';
@@ -16,6 +12,7 @@ import SidebarInsert from 'components/organisms/sidebar/sidebarinsertdata';
 import SidebarData from 'components/organisms/sidebar/sidebardata';
 
 import './styles.css';
+import { type IAnalysis } from 'api/statisticApi/models/IAnalysis';
 
 export enum ApplicationPage {
 	HOME,
@@ -27,13 +24,11 @@ export enum ApplicationPage {
 
 const Default: React.FC = () => {
 	const [appState, setAppState] = useState(ApplicationPage.DISPLAY_TABLE);
-	const tableDataRef = useRef<TableData>(obtainTableData(tableDataFetched));
-	const columnToAnalyseRef = useRef<ColumnOutputData>({
-		title: '',
-		data: [''],
-		isNumeric: '0',
+	const tableDataRef = useRef<TableData>({
+		grid: [[{ value: '', isSelected: false }]],
+		types: ['string'],
 	});
-
+	const statisticalDataRef = useRef<IAnalysis | null>(null);
 	const handleInsertDataButtonClick = (): void => {
 		setAppState(ApplicationPage.INSERT_DATA);
 	};
@@ -84,7 +79,9 @@ const Default: React.FC = () => {
 			sidebarToRender = (
 				<SidebarInsert onVoltarClick={handleVoltarInsertButtonClick} />
 			);
-			pageToRender = <SelectFile />;
+			pageToRender = (
+				<SelectFile tableDataRef={tableDataRef} setAppState={setAppState} />
+			);
 			break;
 		case ApplicationPage.DISPLAY_TABLE:
 			sidebarToRender = (
@@ -93,7 +90,7 @@ const Default: React.FC = () => {
 			pageToRender = (
 				<DisplayTable
 					tableDataRef={tableDataRef}
-					columnToAnalyzeRef={columnToAnalyseRef}
+					statisticalDataRef={statisticalDataRef}
 					setAppState={setAppState}
 				/>
 			);
@@ -102,8 +99,7 @@ const Default: React.FC = () => {
 			sidebarToRender = (
 				<SidebarData onVoltarClick={handleVoltarDisplayButtonClick} />
 			);
-			pageToRender = <Analysis />;
-			console.log(columnToAnalyseRef.current);
+			pageToRender = <Analysis statisticalDataRef={statisticalDataRef} />;
 			break;
 		default:
 			sidebarToRender = (

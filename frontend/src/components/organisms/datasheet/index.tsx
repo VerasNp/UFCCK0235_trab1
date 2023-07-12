@@ -1,3 +1,5 @@
+import { statisticCalcs } from 'api/statisticApi/api';
+import { type IAnalysis } from 'api/statisticApi/models/IAnalysis';
 import { type CellData } from 'components/atoms/cell';
 import { ColumnCells } from 'components/atoms/column_cells';
 import { FloatCell } from 'components/atoms/float_cell';
@@ -15,7 +17,7 @@ import './styles.css';
 
 interface DataSheetProps {
 	tableDataRef: MutableRefObject<TableData>;
-	columnToAnalyzeRef: MutableRefObject<ColumnOutputData>;
+	statisticalDataRef: MutableRefObject<IAnalysis | null>;
 	setAppState: (state: ApplicationPage) => void;
 }
 
@@ -34,13 +36,13 @@ export interface ColumnOutputData {
 // When the user hit the save button, we update tableDataRef
 export const DataSheet: React.FC<DataSheetProps> = ({
 	tableDataRef,
-	columnToAnalyzeRef,
+	statisticalDataRef,
 	setAppState,
 }) => {
-	const [tableData, setTableData] = useState(tableDataRef.current);
+	const [tableData, setTableData] = useState<TableData>(tableDataRef.current);
 	const divRef = useRef<HTMLDivElement>(null);
 
-	console.log(tableData);
+	console.log(tableDataRef.current);
 
 	const saveTable = (data: TableData): void => {
 		setTableData(data);
@@ -49,7 +51,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 
 	// This function doesn't alter the tableData state, you need to call a setTableData with this
 	const tableUnselected = (): TableData => {
-		if (tableData.columnSelected !== undefined) {
+		if (tableData?.columnSelected !== undefined) {
 			const newGrid = tableData.grid.map((cArray, cIndex) => {
 				if (cIndex === tableData.columnSelected) {
 					return cArray.map((cell) => ({ ...cell, isSelected: false }));
@@ -101,7 +103,6 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				divRef.current != null &&
 				!divRef.current.contains(event.target as Node)
 			) {
-				// User clicked outside the div
 				setTableData(tableUnselected());
 			}
 		};
@@ -115,9 +116,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 
 	// Verify if there is a column selected, if so, change the app state and the columnToAnalyzeRef
 	const handleCalculateClick = (): void => {
-		let output: ColumnOutputData;
-
-		if (tableData.columnSelected !== undefined) {
+		if (tableData?.columnSelected !== undefined) {
 			const selectedCells = tableData.grid[tableData.columnSelected].filter(
 				(cell) => cell.isSelected
 			);
@@ -131,12 +130,21 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 
 			const title = selectedCells[0].value;
 			const data = selectedCells.slice(1).map((cell) => cell.value);
-			const isNumeric =
-				tableData.types[tableData.columnSelected] === 'string' ? '0' : '1';
-			output = { title, data, isNumeric };
 
-			columnToAnalyzeRef.current = output;
-			setAppState(ApplicationPage.ANALYSIS);
+			const form = new FormData();
+			form.append('title', title);
+			data.forEach((e) => {
+				form.append('data[]', e);
+			});
+
+			statisticCalcs(form)
+				.then((response) => {
+					statisticalDataRef.current = response.data;
+					setAppState(ApplicationPage.ANALYSIS);
+				})
+				.catch((errorMsg) => {
+					alert(errorMsg);
+				});
 
 			return;
 		}
@@ -144,12 +152,13 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 	};
 
 	const addRow = (): void => {
-		const grid = tableData.grid.map((columnArray) => [
+		const grid = tableData?.grid.map((columnArray) => [
 			...columnArray,
 			{ value: '', isSelected: false },
 		]);
 		const newTableData = { ...tableData, grid };
 		tableDataRef.current = newTableData;
+
 		setTableData(newTableData);
 	};
 

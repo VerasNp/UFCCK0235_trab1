@@ -15,11 +15,11 @@ public class NumericDataStatisticService implements IStatisticService {
     public StatisticDTO<NumericStatisticDTO> calculate(Column column) {
         List<Double> numericData = column.getData().stream()
                 .map(Double::parseDouble).toList();
-        StatisticDTO<NumericStatisticDTO> numericStatisticDTO = new StatisticDTO<NumericStatisticDTO>();
+        StatisticDTO<NumericStatisticDTO> numericStatisticDTO = new StatisticDTO<>();
         numericStatisticDTO.source = column;
         numericStatisticDTO.analysisCalcs = new NumericStatisticDTO();
         numericStatisticDTO.analysisCalcs.mean = this.mean(numericData);
-        numericStatisticDTO.analysisCalcs.mode = this.mode(numericData);
+        numericStatisticDTO.analysisCalcs.mode = this.mode(column.getData());
         numericStatisticDTO.analysisCalcs.median = this.median(numericData);
         numericStatisticDTO.analysisCalcs.firstQuartile = this.firstQuartile(numericData);
         numericStatisticDTO.analysisCalcs.thirdQuartile = this.thirdQuartile(numericData);
@@ -38,19 +38,23 @@ public class NumericDataStatisticService implements IStatisticService {
     }
 
     /**
-     * Mode calc
      *
      * @param data
      * @return
      */
-    protected Double mode(List<Double> data) {
-        Hashtable<Double, Integer> auxMode = new Hashtable<Double, Integer>();
+    protected Double mode(List<String> data) {
+        Hashtable<String, Integer> auxMode = new Hashtable<>();
         int maxFreq = 1;
-        double modeElement = data.get(0);
+        String modeElement = data.get(0);
+        List<String> sortedData = new ArrayList<>(data);
+        sortedData.sort(Comparator.naturalOrder());
+
         for (var dat :
-                data) {
+                sortedData) {
             if (auxMode.containsKey(dat)) {
                 if (auxMode.get(dat) + 1 > maxFreq) {
+                    auxMode.put(dat, auxMode.get(dat) + 1);
+                    maxFreq = auxMode.get(dat);
                     modeElement = dat;
                 } else {
                     auxMode.put(dat, auxMode.get(dat) + 1);
@@ -60,7 +64,7 @@ public class NumericDataStatisticService implements IStatisticService {
             }
         }
 
-        return modeElement;
+        return Double.valueOf(modeElement);
     }
 
     /**
@@ -77,13 +81,14 @@ public class NumericDataStatisticService implements IStatisticService {
      */
     protected Double median(List<Double> data) {
         double posM = ((double) data.size() / 2) - 1;
-
+        List<Double> sortedData = new ArrayList<>(data);
+        sortedData.sort(Comparator.naturalOrder());
         double median;
         if (posM != (int) posM) {
-            median = Double.parseDouble(String.valueOf(data.get((int) (posM + 1))));
+            median = Double.parseDouble(String.valueOf(sortedData.get((int) (posM + 1))));
 
         } else {
-            median = (Double.parseDouble(String.valueOf(data.get((int) posM))) + Double.parseDouble(String.valueOf(data.get((int) posM + 1)))) / 2;
+            median = (Double.parseDouble(String.valueOf(sortedData.get((int) posM))) + Double.parseDouble(String.valueOf(sortedData.get((int) posM + 1)))) / 2;
         }
 
         return median;
@@ -98,7 +103,7 @@ public class NumericDataStatisticService implements IStatisticService {
             if (pos != (int) pos) {
                 firstQuartile = Double.parseDouble(String.valueOf(sortedData.get((int) ceil(pos) - 1)));
             } else {
-                firstQuartile = (Double.parseDouble(String.valueOf(sortedData.get((int) pos))) + Double.parseDouble(String.valueOf(sortedData.get((int) pos + 1)))) / 2;
+                firstQuartile = (Double.parseDouble(String.valueOf(sortedData.get((int) pos - 1))) + Double.parseDouble(String.valueOf(sortedData.get((int) pos)))) / 2;
             }
         }
         return firstQuartile;
@@ -113,7 +118,7 @@ public class NumericDataStatisticService implements IStatisticService {
             if (pos != (int) pos) {
                 thirdQuartile = Double.parseDouble(String.valueOf(sortedData.get((int) ceil(pos) - 1)));
             } else {
-                thirdQuartile = (Double.parseDouble(String.valueOf(sortedData.get((int) pos))) + Double.parseDouble(String.valueOf(sortedData.get((int) pos + 1)))) / 2;
+                thirdQuartile = (Double.parseDouble(String.valueOf(sortedData.get((int) pos - 1))) + Double.parseDouble(String.valueOf(sortedData.get((int) pos)))) / 2;
             }
         }
         return thirdQuartile;
@@ -122,9 +127,10 @@ public class NumericDataStatisticService implements IStatisticService {
     protected Double varianceSum(List<Double> data) {
         double varianceSum = 0.0;
         double mean = this.mean(data);
-
+        List<Double> sortedData = new ArrayList<>(data);
+        sortedData.sort(Comparator.naturalOrder());
         for (var dat :
-                data) {
+                sortedData) {
             varianceSum += Math.pow(dat - mean, 2);
         }
 
