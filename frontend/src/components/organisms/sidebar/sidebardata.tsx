@@ -24,13 +24,6 @@ const SidebarData: React.FC<Props> = ({ onVoltarClick }) => {
 					disabled={false}
 					type={'button'}
 					className={'btn'}
-					text={'Salvar'}
-				/>
-				<Button
-					name={''}
-					disabled={false}
-					type={'button'}
-					className={'btn'}
 					text={'Voltar'}
 					onClick={onVoltarClick}
 				/>
