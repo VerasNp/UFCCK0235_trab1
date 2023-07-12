@@ -119,7 +119,7 @@ public class FileUploadController {
             if (i < originalLine.length){
                 lineDestination[i] = originalLine[i];
             }else {
-                lineDestination[i] = " ";
+                lineDestination[i] = "";
             }
         }
         return lineDestination;
