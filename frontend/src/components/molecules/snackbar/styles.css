@@ -1,12 +1,13 @@
 .bar {
 	display: block;
 	background-color: #b4bec9;
-	width: 924px;
-	height: 220px;
+	width: 60%;
+	height: 30%;
 	flex-shrink: 0;
 	border-radius: 10px;
 	margin-top: 50px;
-	margin-left: 120px;
+	margin-left: auto;
+	margin-right: auto;
 	font-family: 'Quicksand';
 }
 
@@ -24,4 +25,13 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
+}
+
+@media (max-width: 1310px) {
+	.bar {
+		height: 20%;
+	}
+	.question {
+		font-size: 20px;
+	}
 }

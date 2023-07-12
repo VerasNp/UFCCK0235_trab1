@@ -2,7 +2,8 @@
 	display: flex;
 	flex-direction: column;
 	width: 700px;
-	margin-left: 220px;
+	margin-left: auto;
+	margin-right: auto;
 	margin-top: 100px;
 }
 
@@ -14,4 +15,10 @@
 	font-style: normal;
 	font-weight: 600;
 	line-height: normal;
+}
+
+@media (max-width: 1200px) {
+	.text {
+		font-size: 15px;
+	}
 }

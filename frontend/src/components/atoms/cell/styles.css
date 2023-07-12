@@ -3,7 +3,8 @@
 	min-width: 50px;
 	height: 20px;
 	border: 1px solid rgba(0, 0, 0, 0.15);
-	background-color: blanchedalmond;
+	background-color: #b4bec9;
+	font-family: Quicksand;
 }
 .highlighted {
 	border: 1px solid #208586;
@@ -29,7 +30,7 @@ input[type='text'] {
 	outline: none;
 	border: none;
 	/* width: calc(100% + 20px); */
-	background-color: blanchedalmond;
+	background-color: #b4bec9;
 }
 
 .unselectable {

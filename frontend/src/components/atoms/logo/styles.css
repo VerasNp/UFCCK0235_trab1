@@ -8,3 +8,9 @@
 	margin-top: 20px;
 	margin-bottom: 10px;
 }
+
+@media (max-width: 1200px) {
+	.title {
+		font-size: 48px;
+	}
+}
