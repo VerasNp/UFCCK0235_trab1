@@ -24,7 +24,7 @@ export enum ApplicationPage {
 }
 
 const Default: React.FC = () => {
-	const [appState, setAppState] = useState(ApplicationPage.DISPLAY_TABLE);
+	const [appState, setAppState] = useState(ApplicationPage.HOME);
 	const tableDataRef = useRef<TableData>({
 		grid: [[{ value: '', isSelected: false }]],
 		types: ['string'],
@@ -35,6 +35,10 @@ const Default: React.FC = () => {
 	};
 
 	const handleVoltarHomeButtonClick = (): void => {
+		tableDataRef.current = {
+			grid: [[{ value: '', isSelected: false }]],
+			types: ['string'],
+		};
 		setAppState(ApplicationPage.HOME);
 	};
 
