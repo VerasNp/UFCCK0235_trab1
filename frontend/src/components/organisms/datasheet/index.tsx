@@ -42,8 +42,6 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 	const [tableData, setTableData] = useState<TableData>(tableDataRef.current);
 	const divRef = useRef<HTMLDivElement>(null);
 
-	console.log(tableDataRef.current);
-
 	const saveTable = (data: TableData): void => {
 		setTableData(data);
 		tableDataRef.current = data;

@@ -7,9 +7,10 @@ import { type TableData } from 'components/organisms/datasheet';
 import Analysis from 'components/templates/analysis';
 import SelectFile from 'components/templates/select_file';
 
-import SidebarHome from '../../organisms/sidebar/sidebarhome';
+import SidebarHome from 'components/organisms/sidebar/sidebarhome';
 import SidebarInsert from 'components/organisms/sidebar/sidebarinsertdata';
 import SidebarData from 'components/organisms/sidebar/sidebardata';
+import SidebarAnalysis from 'components/organisms/sidebar/sidebaranalysis';
 
 import './styles.css';
 import { type IAnalysis } from 'api/statisticApi/models/IAnalysis';
@@ -85,7 +86,10 @@ const Default: React.FC = () => {
 			break;
 		case ApplicationPage.DISPLAY_TABLE:
 			sidebarToRender = (
-				<SidebarData onVoltarClick={handleVoltarInsertButtonClick} />
+				<SidebarData
+					tableDataRef={tableDataRef}
+					onVoltarClick={handleVoltarInsertButtonClick}
+				/>
 			);
 			pageToRender = (
 				<DisplayTable
@@ -97,7 +101,10 @@ const Default: React.FC = () => {
 			break;
 		case ApplicationPage.ANALYSIS:
 			sidebarToRender = (
-				<SidebarData onVoltarClick={handleVoltarDisplayButtonClick} />
+				<SidebarAnalysis
+					onVoltarClick={handleVoltarHomeButtonClick}
+					onVoltar2Click={handleVoltarDisplayButtonClick}
+				/>
 			);
 			pageToRender = <Analysis statisticalDataRef={statisticalDataRef} />;
 			break;
