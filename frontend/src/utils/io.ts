@@ -1,54 +1,11 @@
 import { type CellData } from 'components/atoms/cell';
 import { type TableData } from 'components/organisms/datasheet';
-
-// Data will come in this format from backend
-interface dataFetched {
-	data: Array<Record<string, string>>;
-	columns: Record<string, string>;
-}
+import { type IFileResponse } from '../api/statisticApi/models/IFileResponse';
 
 // We convert temporarily the dataFetched to this type
 type TemporaryData = Record<string, { data: string[]; type: string }>;
 
-// Temporary, should be deleted after fetching of data is implemented and passed to Default Component
-export const tableDataFetched = {
-	data: [
-		{
-			firstName: 'Elon',
-			lastNameFockingAwesomeIncredibleBlastingIdiot: 'Musk',
-			age: '38',
-			address: 'California',
-			pet: 'dog',
-			salary: '3500420',
-		},
-		{
-			firstName: 'Jeff',
-			lastNameFockingAwesomeIncredibleBlastingIdiot: 'Bezos',
-			age: '59',
-			address: 'Miami',
-			pet: 'tiger',
-			salary: '8504221',
-		},
-		{
-			firstName: 'Xuxa',
-			lastNameFockingAwesomeIncredibleBlastingIdiot: 'Meneguel',
-			age: '65',
-			address: 'São Paulo',
-			pet: 'Parrot',
-			salary: '600200.37',
-		},
-	],
-	columns: {
-		firstName: 'string',
-		lastNameFockingAwesomeIncredibleBlastingIdiot: 'string',
-		age: 'int',
-		address: 'string',
-		pet: 'string',
-		salary: 'float',
-	},
-};
-
-export const obtainTableData = (dataFetched: dataFetched): TableData => {
+export const obtainTableData = (dataFetched: IFileResponse): TableData => {
 	const data = obtainTemporaryData(dataFetched);
 	const grid: CellData[][] = [];
 	const columnTypes: string[] = [];
@@ -61,12 +18,13 @@ export const obtainTableData = (dataFetched: dataFetched): TableData => {
 		grid.push(cells);
 		columnTypes.push(data[column].type);
 	});
+	console.log({ grid, types: columnTypes });
 	return { grid, types: columnTypes };
 };
 
-const obtainTemporaryData = (data: dataFetched): TemporaryData => {
+const obtainTemporaryData = (data: IFileResponse): TemporaryData => {
 	let nData: TemporaryData = {};
-	data.data.forEach((row) => {
+	data.dados.forEach((row) => {
 		Object.keys(row).forEach((key) => {
 			if (nData[key] !== undefined) {
 				nData[key].data.push(row[key]);
@@ -75,12 +33,11 @@ const obtainTemporaryData = (data: dataFetched): TemporaryData => {
 					...nData,
 					[key]: {
 						data: [row[key]],
-						type: data.columns[key],
+						type: data.colunas[key],
 					},
 				};
 			}
 		});
 	});
-
 	return nData;
 };

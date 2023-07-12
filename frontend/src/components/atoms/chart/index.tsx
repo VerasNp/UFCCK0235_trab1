@@ -14,11 +14,11 @@ import { type IColumn } from '../../../api/statisticApi/models/IColumn';
 
 interface Props {
 	chartType: ChartsEnum | null;
-	data: string[];
+	data: string[] | undefined;
 	auxData: {
 		source: IColumn;
 		analysisCalcs: any;
-	};
+	} | null;
 	height: number;
 }
 
@@ -44,7 +44,7 @@ const Chart: React.FC<Props> = ({ chartType, data, auxData, height }) => {
 
 	switch (chartType) {
 		case ChartsEnum.BAR:
-			if (auxData.source.numericData) {
+			if (auxData?.source.numericData === true) {
 				chart = (
 					<VictoryChart
 						height={height}
@@ -66,7 +66,7 @@ const Chart: React.FC<Props> = ({ chartType, data, auxData, height }) => {
 						domainPadding={60}
 					>
 						<VictoryBar
-							data={frequencyQualitativeData(auxData.analysisCalcs.frequency)}
+							data={frequencyQualitativeData(auxData?.analysisCalcs.frequency)}
 						/>
 					</VictoryChart>
 				);
@@ -86,21 +86,21 @@ const Chart: React.FC<Props> = ({ chartType, data, auxData, height }) => {
 							{
 								x: 1,
 								y: [
-									auxData.analysisCalcs.minimum,
-									auxData.analysisCalcs.median,
-									auxData.analysisCalcs.maximum,
-									auxData.analysisCalcs.firstQuartile,
-									auxData.analysisCalcs.thirdQuartile,
+									auxData?.analysisCalcs.minimum,
+									auxData?.analysisCalcs.median,
+									auxData?.analysisCalcs.maximum,
+									auxData?.analysisCalcs.firstQuartile,
+									auxData?.analysisCalcs.thirdQuartile,
 								],
 							},
 						]}
-						domain={{ x: [1, 2], y: [0, auxData.analysisCalcs.maximum] }}
+						domain={{ x: [1, 2], y: [0, auxData?.analysisCalcs.maximum] }}
 					/>
 				</VictoryChart>
 			);
 			break;
 		case ChartsEnum.PIE:
-			if (auxData.source.numericData) {
+			if (auxData?.source.numericData === true) {
 				chart = (
 					<VictoryPie
 						height={height}
@@ -115,7 +115,7 @@ const Chart: React.FC<Props> = ({ chartType, data, auxData, height }) => {
 						height={height}
 						width={height}
 						theme={VictoryTheme.material}
-						data={frequencyQualitativeData(auxData.analysisCalcs.frequency)}
+						data={frequencyQualitativeData(auxData?.analysisCalcs.frequency)}
 					/>
 				);
 			}
@@ -128,7 +128,7 @@ const Chart: React.FC<Props> = ({ chartType, data, auxData, height }) => {
 					theme={VictoryTheme.material}
 					domainPadding={60}
 				>
-					<VictoryHistogram data={groupedData(data)} />
+					<VictoryHistogram data={data != null ? groupedData(data) : []} />
 				</VictoryChart>
 			);
 			break;

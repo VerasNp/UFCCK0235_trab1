@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './styles.css';
 
 import Button from 'components/atoms/button';
 import { uploadFile } from '../../../api/statisticApi/api';
+import { type TableData } from '../../organisms/datasheet';
+import { obtainTableData } from '../../../utils/io';
+import { ApplicationPage } from '../../pages/default';
 
 interface File {
 	name: string;
 	blob: Blob;
 }
 
-const CSVUploader: React.FC = () => {
+interface Props {
+	setAppState: (state: ApplicationPage) => void;
+}
+
+const CSVUploader: React.FC<Props> = ({ setAppState }) => {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+	const tableDataRef = useRef<TableData>();
 
 	const handleFileChange = (
 		event: React.ChangeEvent<HTMLInputElement>
@@ -25,8 +33,8 @@ const CSVUploader: React.FC = () => {
 		}
 	};
 
-	const fetchFile = async (file: any): Promise<void> => {
-		await uploadFile(file);
+	const fetchFile = async (file: any): Promise<any> => {
+		return await uploadFile(file);
 	};
 
 	const handleUpload = (): void => {
@@ -38,7 +46,10 @@ const CSVUploader: React.FC = () => {
 		formData.append('file', selectedFile?.blob);
 		fetchFile(formData)
 			.then((data) => {
-				console.log(data);
+				tableDataRef.current = obtainTableData(data.data);
+			})
+			.then(() => {
+				setAppState(ApplicationPage.DISPLAY_TABLE);
 			})
 			.catch((e) => {
 				console.log(e);

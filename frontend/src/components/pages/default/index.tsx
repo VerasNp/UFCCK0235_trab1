@@ -3,7 +3,6 @@ import Home from '../../templates/home';
 import InsertData from '../../templates/insert_data';
 import { DisplayTable } from 'components/templates/display_table';
 import { type TableData } from 'components/organisms/datasheet';
-import { obtainTableData, tableDataFetched } from 'utils/io';
 
 import Analysis from 'components/templates/analysis';
 import SelectFile from 'components/templates/select_file';
@@ -25,19 +24,11 @@ export enum ApplicationPage {
 
 const Default: React.FC = () => {
 	const [appState, setAppState] = useState(ApplicationPage.DISPLAY_TABLE);
-	const tableDataRef = useRef<TableData>(obtainTableData(tableDataFetched));
-	// const columnToAnalyseRef = useRef<ColumnOutputData>({
-	// 	title: '',
-	// 	data: [''],
-	// 	isNumeric: '0',
-	// });
-	// const statisticalDataRef = useRef<INonNumericStatisticData | INonNumericStatisticData>({mode: "0", frequency: {}})
-	// source: IColumn;
-	const statisticalDataRef = useRef<IAnalysis>({
-		source: { title: 'eae', numericData: false, data: ['oi'] },
-		analysisCalcs: { mode: '0', frequency: {} },
+	const tableDataRef = useRef<TableData>({
+		grid: [[{ value: '', isSelected: false }]],
+		types: ['string'],
 	});
-
+	const statisticalDataRef = useRef<IAnalysis | null>(null);
 	const handleInsertDataButtonClick = (): void => {
 		setAppState(ApplicationPage.INSERT_DATA);
 	};
@@ -88,7 +79,7 @@ const Default: React.FC = () => {
 			sidebarToRender = (
 				<SidebarInsert onVoltarClick={handleVoltarInsertButtonClick} />
 			);
-			pageToRender = <SelectFile />;
+			pageToRender = <SelectFile setAppState={setAppState} />;
 			break;
 		case ApplicationPage.DISPLAY_TABLE:
 			sidebarToRender = (
