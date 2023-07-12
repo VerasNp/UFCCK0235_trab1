@@ -1,28 +1,25 @@
-import {
-	type ColumnOutputData,
-	DataSheet,
-	type TableData,
-} from 'components/organisms/datasheet';
+import { type IAnalysis } from 'api/statisticApi/models/IAnalysis';
+import { DataSheet, type TableData } from 'components/organisms/datasheet';
 import { type ApplicationPage } from 'components/pages/default';
 import React, { type MutableRefObject } from 'react';
 import './styles.css';
 
 interface Props {
 	tableDataRef: MutableRefObject<TableData>;
-	columnToAnalyzeRef: MutableRefObject<ColumnOutputData>;
+	statisticalDataRef: MutableRefObject<IAnalysis>;
 	setAppState: (state: ApplicationPage) => void;
 }
 
 export const DisplayTable: React.FC<Props> = ({
 	tableDataRef,
-	columnToAnalyzeRef,
+	statisticalDataRef,
 	setAppState,
 }) => {
 	return (
 		<div className="display-table-page">
 			<DataSheet
 				tableDataRef={tableDataRef}
-				columnToAnalyzeRef={columnToAnalyzeRef}
+				statisticalDataRef={statisticalDataRef}
 				setAppState={setAppState}
 			/>
 		</div>

@@ -5,8 +5,10 @@ export const statisticApi: Axios = axios.create({
 	baseURL: 'http://localhost:8081',
 });
 
-export const statisticCalcs = async (): Promise<AxiosResponse<IAnalysis>> => {
-	return await statisticApi.post<IAnalysis>('/api/statistic');
+export const statisticCalcs = async (
+	column: FormData
+): Promise<AxiosResponse<IAnalysis>> => {
+	return await statisticApi.post<IAnalysis>('/api/statistic', column);
 };
 
 export const uploadFile = async (file: any): Promise<AxiosResponse<any>> => {
