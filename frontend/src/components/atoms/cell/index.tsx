@@ -137,8 +137,8 @@ export const Cell: React.FC<GeneralCellProps> = ({
 			{inputActive ? (
 				<input
 					type="text"
-					className={isColumnTitle ? 'title' : ''}
-					style={{ width: instantTitle.length * 10, fontSize: 17 }}
+					className={isColumnTitle ? 'column-title' : ''}
+					style={{ width: instantTitle.length * 10 }}
 					value={instantTitle}
 					autoFocus
 					onBlur={handleOnBlur}

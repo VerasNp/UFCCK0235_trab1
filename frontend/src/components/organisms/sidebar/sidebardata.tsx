@@ -15,16 +15,18 @@ const SidebarData: React.FC<Props> = ({ tableDataRef, onVoltarClick }) => {
 		const output = tableDataRef.current?.grid.map((col, i) =>
 			tableDataRef.current?.grid.map((row) => row[i])
 		);
+		if (output === undefined) return;
 		output?.pop();
 
 		output?.forEach((e) => {
-			csv += (e != null)
-				? e
-						?.map(function ({ value }) {
-							return value;
-						})
-						.join(',') + '\n'
-				: '';
+			csv +=
+				e != null
+					? e
+							?.map(function ({ value }) {
+								return value;
+							})
+							.join(',') + '\n'
+					: '';
 		});
 
 		const blob = new Blob([csv], { type: 'text/csv;charset=utf-8,' });
