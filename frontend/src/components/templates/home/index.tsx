@@ -6,7 +6,7 @@ const Home: React.FC = () => {
 		<div className="text-block">
 			<p className="text">
 				{' '}
-				Surabaia é uma sistema de plotagem de dados estatísticos utilizando
+				Surabaya é uma sistema de plotagem de dados estatísticos utilizando
 				conhecimentos e padrões aprendidos ao longo da disciplina CK0235 -
 				Técnicas de Programação da Universidade Federal do Ceará Ministrada pelo
 				professor José Macedo.{' '}
