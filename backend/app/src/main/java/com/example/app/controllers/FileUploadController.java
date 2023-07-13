@@ -146,7 +146,8 @@ public class FileUploadController {
         Vector<Coluna> columns = new Vector<Coluna>();
         for (String column : vectorColumns){
             String[]splitedColumn = column.split(",");
-            columns.add(new Coluna(splitedColumn[0],sliceArrayString(splitedColumn,1,splitedColumn.length)));
+            if (splitedColumn.length > 0)
+                columns.add(new Coluna(splitedColumn[0],sliceArrayString(splitedColumn,1,splitedColumn.length)));
         }
         return columns;
     }
