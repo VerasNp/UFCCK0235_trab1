@@ -3,6 +3,8 @@
 Foi utilizado [Apache Maven](https://mvnrepository.com/) visando a automatização do build e utilização de pacotes quando
 necessário.
 
+Contamos com a utilização do swagger para documentação de nossas rotas: http://localhost:8081/swagger-ui/index.html
+
 ## Como utilizar
 
 Para levantarmos a API do Backend será necessário ter instalado o [Maven](https://maven.apache.org/download.cgi) e assim
