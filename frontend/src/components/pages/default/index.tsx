@@ -38,10 +38,7 @@ const Default: React.FC = () => {
 	};
 
 	const handleVoltarHomeButtonClick = (): void => {
-		// tableDataRef.current = {
-		// 	grid: [[{ value: '', isSelected: false }]],
-		// 	types: ['string'],
-		// };
+		tableDataRef.current = null;
 		setAppState(ApplicationPage.HOME);
 	};
 
