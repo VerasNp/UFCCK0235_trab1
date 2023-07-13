@@ -6,7 +6,12 @@ import { FloatCell } from 'components/atoms/float_cell';
 import { IntegerCell } from 'components/atoms/int_cell';
 import { TextCell } from 'components/atoms/text_cell';
 import { ApplicationPage } from 'components/pages/default';
-import React, { type MutableRefObject, useState, useRef, useEffect } from 'react';
+import React, {
+	type MutableRefObject,
+	useState,
+	useRef,
+	useEffect,
+} from 'react';
 
 import './styles.css';
 
@@ -94,8 +99,6 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 		tableDataRef.current ?? null
 	);
 	const divRef = useRef<HTMLDivElement>(null);
-
-	console.log(tableData);
 
 	const [contextMenuPos, setContextMenuPos] = useState({ xPos: 0, yPos: 0 });
 	const [showContextMenu, setShowContextMenu] = useState(false);
@@ -334,9 +337,9 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				/>
 			)}
 			<div className="table">
-				{(tableData == null)
+				{tableData?.grid.length === 0
 					? 'Insira uma coluna'
-					: tableData.grid.map((columnArray, columnIndex) => (
+					: tableData?.grid.map((columnArray, columnIndex) => (
 							<ColumnCells key={columnIndex}>
 								{columnArray.map((cell, rowIndex) => {
 									let widget;
@@ -407,7 +410,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				</button>
 
 				<div className="dropdown">
-					<button className="dropbtn">
+					<button className="regular-btn">
 						<img
 							style={{ marginRight: 6 }}
 							src="icons8-add-24.png"

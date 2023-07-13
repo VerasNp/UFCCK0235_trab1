@@ -5,25 +5,28 @@ import './styles.css';
 import { type TableData } from '../datasheet';
 
 interface Props {
-	tableDataRef: MutableRefObject<TableData>;
+	tableDataRef: MutableRefObject<TableData | null>;
 	onVoltarClick: React.MouseEventHandler;
 }
 
 const SidebarData: React.FC<Props> = ({ tableDataRef, onVoltarClick }) => {
 	const handleExport = (): void => {
 		let csv: string = '';
-		const output = tableDataRef.current.grid.map((col, i) =>
-			tableDataRef.current.grid.map((row) => row[i])
+		const output = tableDataRef.current?.grid.map((col, i) =>
+			tableDataRef.current?.grid.map((row) => row[i])
 		);
-		output.pop();
+		if (output === undefined) return;
+		output?.pop();
 
-		output.forEach((e) => {
+		output?.forEach((e) => {
 			csv +=
-				e
-					.map(function ({ value }) {
-						return value;
-					})
-					.join(',') + '\n';
+				e != null
+					? e
+							?.map(function ({ value }) {
+								return value;
+							})
+							.join(',') + '\n'
+					: '';
 		});
 
 		const blob = new Blob([csv], { type: 'text/csv;charset=utf-8,' });

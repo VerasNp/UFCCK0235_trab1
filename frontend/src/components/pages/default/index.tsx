@@ -27,7 +27,6 @@ const Default: React.FC = () => {
 	const [appState, setAppState] = useState(ApplicationPage.HOME);
 	const tableDataRef = useRef<TableData | null>(null);
 
-
 	// source: IColumn;
 	// analysisCalcs: INumericStatisticData | INonNumericStatisticData;
 	const statisticalDataRef = useRef<IAnalysis>({
@@ -39,10 +38,7 @@ const Default: React.FC = () => {
 	};
 
 	const handleVoltarHomeButtonClick = (): void => {
-		tableDataRef.current = {
-			grid: [[{ value: '', isSelected: false }]],
-			types: ['string'],
-		};
+		tableDataRef.current = null;
 		setAppState(ApplicationPage.HOME);
 	};
 

@@ -1,4 +1,4 @@
-import React, { type MutableRefObject, useState } from 'react';
+import React, { type MutableRefObject, useState, useRef } from 'react';
 import './styles.css';
 
 import Button from 'components/atoms/button';
@@ -19,6 +19,12 @@ interface Props {
 
 const CSVUploader: React.FC<Props> = ({ tableDataRef, setAppState }) => {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	const activateFileInput = (): void => {
+		fileInputRef?.current?.click();
+	};
 
 	const handleFileChange = (
 		event: React.ChangeEvent<HTMLInputElement>
@@ -63,14 +69,16 @@ const CSVUploader: React.FC<Props> = ({ tableDataRef, setAppState }) => {
 				<input
 					className="input"
 					type="file"
+					ref={fileInputRef}
 					accept=".csv,.xml,.doc,.pdf"
 					onChange={handleFileChange}
 				/>
 				<Button
-					className="btn-input"
+					className="btn"
 					text="Inserir Arquivo .csv"
 					type="button"
 					name={''}
+					onClick={activateFileInput}
 					disabled={false}
 				/>
 			</div>
@@ -79,7 +87,7 @@ const CSVUploader: React.FC<Props> = ({ tableDataRef, setAppState }) => {
 					<h3> Arquivo selecionado: </h3>
 					<p>Selected File: {selectedFile.name}</p>
 					<Button
-						className="btn-snackbar"
+						className="btn"
 						text="Visualizar dados →"
 						type="button"
 						name={''}
