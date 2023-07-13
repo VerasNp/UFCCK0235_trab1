@@ -19,6 +19,7 @@ interface Props {
 
 const CSVUploader: React.FC<Props> = ({ tableDataRef, setAppState }) => {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+	const [loading, setLoading] = useState(false);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -44,6 +45,7 @@ const CSVUploader: React.FC<Props> = ({ tableDataRef, setAppState }) => {
 	};
 
 	const handleUpload = (): void => {
+		setLoading(true);
 		if (selectedFile == null) {
 			console.log('no file');
 			return;
@@ -60,6 +62,9 @@ const CSVUploader: React.FC<Props> = ({ tableDataRef, setAppState }) => {
 			})
 			.catch((e) => {
 				console.log(e);
+			})
+			.finally(() => {
+				setLoading(false);
 			});
 	};
 
@@ -87,11 +92,11 @@ const CSVUploader: React.FC<Props> = ({ tableDataRef, setAppState }) => {
 					<h3> Arquivo selecionado: </h3>
 					<p>Selected File: {selectedFile.name}</p>
 					<Button
-						className="btn"
+						className={loading ? 'btn-loading' : 'btn-snackbar'}
 						text="Visualizar dados →"
 						type="button"
 						name={''}
-						disabled={false}
+						disabled={loading}
 						onClick={handleUpload}
 					/>
 				</div>
