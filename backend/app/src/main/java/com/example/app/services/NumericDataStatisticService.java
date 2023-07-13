@@ -38,6 +38,7 @@ public class NumericDataStatisticService implements IStatisticService {
     }
 
     /**
+     * Cálculo da moda
      *
      * @param data
      * @return
@@ -68,6 +69,8 @@ public class NumericDataStatisticService implements IStatisticService {
     }
 
     /**
+     * Cálculo da média
+     *
      * @param data
      * @return
      */
@@ -77,6 +80,9 @@ public class NumericDataStatisticService implements IStatisticService {
     }
 
     /**
+     * Cálculo da mediana
+     *
+     * @param data
      * @return
      */
     protected Double median(List<Double> data) {
@@ -94,6 +100,12 @@ public class NumericDataStatisticService implements IStatisticService {
         return median;
     }
 
+    /**
+     * Cálculo do primeiro quartil
+     *
+     * @param data
+     * @return
+     */
     protected Double firstQuartile(List<Double> data) {
         double firstQuartile = 0.0;
         List<Double> sortedData = new ArrayList<>(data);
@@ -109,6 +121,12 @@ public class NumericDataStatisticService implements IStatisticService {
         return firstQuartile;
     }
 
+    /**
+     * Cálculo do terceiro quartil
+     *
+     * @param data
+     * @return
+     */
     protected Double thirdQuartile(List<Double> data) {
         double thirdQuartile = 0.0;
         List<Double> sortedData = new ArrayList<>(data);
@@ -124,6 +142,12 @@ public class NumericDataStatisticService implements IStatisticService {
         return thirdQuartile;
     }
 
+    /**
+     * Soma da variância
+     *
+     * @param data
+     * @return
+     */
     protected Double varianceSum(List<Double> data) {
         double varianceSum = 0.0;
         double mean = this.mean(data);
@@ -137,31 +161,62 @@ public class NumericDataStatisticService implements IStatisticService {
         return varianceSum;
     }
 
+    /**
+     * Cálculo da variância amostral
+     *
+     * @param data
+     * @return
+     */
     protected Double sampleVariance(List<Double> data) {
         return this.varianceSum(data) / (data.size() - 1);
     }
 
+    /**
+     * Cálculo da variância populacional
+     *
+     * @param data
+     * @return
+     */
     protected Double populationVariance(List<Double> data) {
         return this.varianceSum(data) / data.size();
     }
 
+    /**
+     * Cálculo do desvio padrão amostral
+     *
+     * @param data
+     * @return
+     */
     protected Double sampleStandardDeviation(List<Double> data) {
         return Math.sqrt(this.sampleVariance(data));
     }
 
+    /**
+     * Cálculo do desvio padrão populacional
+     *
+     * @param data
+     * @return
+     */
     protected Double populationStandardDeviation(List<Double> data) {
         return Math.sqrt(this.populationVariance(data));
     }
 
     /**
-     * Measure of dispersion
+     * Cálculo do coeficiente de variação
      *
+     * @param data
      * @return
      */
     protected Double coefficientVariation(List<Double> data) {
         return (this.populationStandardDeviation(data) * 100) / this.mean(data);
     }
 
+    /**
+     * Cálculo do máximo
+     *
+     * @param data
+     * @return
+     */
     protected Double maximum(List<Double> data) {
         return data
                 .stream()
@@ -170,6 +225,12 @@ public class NumericDataStatisticService implements IStatisticService {
                 .orElseThrow(NoSuchElementException::new);
     }
 
+    /**
+     * Cálculo do mínimo
+     *
+     * @param data
+     * @return
+     */
     protected Double minimum(List<Double> data) {
         return data
                 .stream()
@@ -178,19 +239,31 @@ public class NumericDataStatisticService implements IStatisticService {
                 .orElseThrow(NoSuchElementException::new);
     }
 
+    /**
+     * Cálculo da amplitude
+     *
+     * @param data
+     * @return
+     */
     protected Double amplitude(List<Double> data) {
         return this.maximum(data) - this.minimum(data);
     }
 
+    /**
+     * Cálculo da frequência
+     *
+     * @param data
+     * @return
+     */
     protected Map<Double, Double> frequency(List<Double> data) {
         Map<Double, Double> frequency = new HashMap<>();
-        for (var dat:
+        for (var dat :
                 data) {
             double aux = frequency.getOrDefault(dat, 0.0);
             frequency.put(dat, aux + 1);
         }
 
-        for (var key:
+        for (var key :
                 frequency.keySet()) {
             double aux = frequency.getOrDefault(key, 0.0);
             frequency.put(key, (aux * 100) / data.size());

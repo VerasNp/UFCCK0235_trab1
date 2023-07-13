@@ -53,10 +53,22 @@ public class FileUploadController {
 
     }
 
+    /**
+     * Valida o tipo de arquivo enviado
+     * @param contentType
+     * @return
+     */
     private boolean isValidExtension(String contentType){
         return contentType != null && (contentType.equals("text/csv"));
     }
 
+    /**
+     * Limpa o arquivo de caracteres especiais
+     * @param file
+     * @return
+     * @throws IOException
+     * @throws CsvValidationException
+     */
     public String removeHtmlTags(MultipartFile file) throws IOException, CsvValidationException {
         CSVReader csvReader = getCSVReader(new String(file.getBytes()));
 
@@ -80,12 +92,24 @@ public class FileUploadController {
         return csvContent;
     }
 
+    /**
+     * Tira caracteres especiais d valores
+     * @param value
+     * @return
+     */
     private String removeHtmlTagsFromValue(String value) {
         String cleanedValue = value.replaceAll("<[^>]+>", "");
         return cleanedValue;
     }
 
 
+    /**
+     * Leitor CSV
+     * @param csvContent
+     * @return
+     * @throws IOException
+     * @throws CsvValidationException
+     */
     private CSVReader getCSVReader(String csvContent) throws IOException, CsvValidationException{
         CSVReader csvReader = new CSVReaderBuilder(new StringReader(csvContent))
                 .withCSVParser(new CSVParserBuilder().withSeparator(',').build())
@@ -93,6 +117,13 @@ public class FileUploadController {
         return csvReader;
     }
 
+    /**
+     * Alinhamento de colunas
+     * @param csvReader
+     * @return
+     * @throws IOException
+     * @throws CsvValidationException
+     */
     private List<String[]> alignColumns(CSVReader csvReader) throws IOException, CsvValidationException{
 
         String[] line;
@@ -113,6 +144,12 @@ public class FileUploadController {
         return alignedlines;
     }
 
+    /**
+     * Copia e alinha colunas
+     * @param originalLine
+     * @param size
+     * @return
+     */
     private String[] copyAndAlignColumns(String[] originalLine, int size){
         String[] lineDestination = new String[size];
         for (int i = 0; i < size; i++){
@@ -125,10 +162,21 @@ public class FileUploadController {
         return lineDestination;
     }
 
+    /**
+     * Tamanho de coluna
+     * @param tableString
+     * @return
+     */
     private int columnSize(List<String[]> tableString){
         return tableString.get(0).length;
     }
 
+    /**
+     * Geração de colunas
+     * @param tableString
+     * @param columnNumber
+     * @return
+     */
     private Vector<Coluna> generateColumns(List<String[]> tableString, int columnNumber){
         Vector<String> vectorColumns = new Vector<String>();
         boolean isFirstLine  = true ;
@@ -152,6 +200,13 @@ public class FileUploadController {
         return columns;
     }
 
+    /**
+     * Partição de array
+     * @param arrayStirng
+     * @param begin
+     * @param end
+     * @return
+     */
     private Vector<String> sliceArrayString(String[] arrayStirng, int begin, int end) {
         Vector<String> slicedArray = new Vector<>();
         for (int i = begin; i < end; i++){
@@ -160,12 +215,26 @@ public class FileUploadController {
         return slicedArray;
     }
 
+    /**
+     * Processamento de colunas
+     * @param vectorColumns
+     * @param line
+     * @param columnNumber
+     * @param isFirstLine
+     */
     private void processColumns(Vector<String> vectorColumns,String[] line,int columnNumber, boolean isFirstLine){
         for (int i = 0; i < columnNumber; i++ ){
             addCell(vectorColumns,line[i],i,isFirstLine);
         }
     }
 
+    /**
+     * Adiciona célula
+     * @param vectorColumns
+     * @param cell
+     * @param vectorIndex
+     * @param isFirstLine
+     */
     private void addCell(Vector<String> vectorColumns, String cell, int vectorIndex, boolean isFirstLine){
         if (isFirstLine)
             vectorColumns.add(cell);
