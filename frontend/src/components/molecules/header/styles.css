@@ -1,0 +1,17 @@
+.header {
+	font-family: 'Quicksand';
+	display: flex;
+	flex-direction: column;
+	color: #002333;
+	align-items: start;
+	margin: 38.5px 49px;
+}
+
+.description {
+	text-align: left;
+	color: #002333;
+	font-size: 1rem;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}

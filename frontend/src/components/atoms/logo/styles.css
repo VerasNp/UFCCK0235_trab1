@@ -1,0 +1,16 @@
+.title {
+	color: #002333;
+	font-size: 3.3rem;
+	font-family: 'Quicksand';
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+@media (max-width: 1200px) {
+	.title {
+		font-size: 48px;
+	}
+}

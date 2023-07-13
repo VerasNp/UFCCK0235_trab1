@@ -1,0 +1,93 @@
+.btn {
+	font-family: 'Quicksand', sans-serif;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1.2rem;
+	line-height: 25px;
+	color: #fff;
+	width: 16rem;
+	height: 4rem;
+	margin-bottom: 30px;
+
+	background: #159a9c;
+	border: none;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+	cursor: pointer;
+	transition: 0.7s;
+}
+
+.btn:hover {
+	transition-duration: 0.7s;
+	transform: scale(1.03);
+}
+
+.btn-snackbar {
+	font-family: 'Quicksand', sans-serif;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1.2rem;
+	color: #fff;
+	width: 16rem;
+	height: 4rem;
+	text-align: center;
+	justify-content: center;
+
+	background: #159a9c;
+	border: none;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+	cursor: pointer;
+	transition: 0.7s;
+}
+
+.btn-loading {
+	font-family: 'Quicksand', sans-serif;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 20px;
+	color: #fff;
+	width: 302px;
+	height: 68px;
+	padding: 20px 45px;
+	text-align: center;
+	justify-content: center;
+
+	background: #159a9c;
+	border: none;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+	transition: 0.7s;
+	opacity: 50%;
+	cursor: unset;
+}
+
+.btn-snackbar:hover {
+	transition-duration: 0.7s;
+	transform: scale(1.03);
+}
+
+.btn-input {
+	position: absolute;
+	z-index: 1;
+	width: 302px;
+	height: 68px;
+	font-family: 'Quicksand', sans-serif;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 25px;
+	color: #fff;
+	padding: 20px 45px;
+	background: #159a9c;
+	border: none;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+	cursor: pointer;
+	transition: 0.7s;
+}
+
+.btn-input:hover {
+	transition-duration: 0.7s;
+	transform: scale(1.03);
+}

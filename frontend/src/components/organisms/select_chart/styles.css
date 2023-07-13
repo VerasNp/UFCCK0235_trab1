@@ -1,0 +1,10 @@
+.box {
+	border-radius: 10px;
+	padding: 10px 30px;
+	margin: 10px 0;
+	font-family: 'Quicksand', sans-serif;
+}
+
+.box-grey {
+	background-color: #b4bec9;
+}

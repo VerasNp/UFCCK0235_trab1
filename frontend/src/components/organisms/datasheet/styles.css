@@ -1,0 +1,131 @@
+.table-container {
+	display: flex;
+	flex-direction: column;
+	margin: 4rem 5%;
+	align-items: center;
+	max-width: calc(90%);
+}
+
+.context-menu {
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+}
+
+.context-menu button {
+	width: calc(100%);
+	padding: 12px 32px;
+}
+
+.context-menu button:hover {
+	background-color: rgb(227, 223, 223);
+}
+
+.table {
+	display: flex;
+	width: 100%;
+	margin-bottom: 18px;
+	max-width: 90%;
+	max-height: 20rem;
+
+	overflow: scroll;
+	overflow-x: scroll;
+}
+
+.regular-btn {
+	font-family: Quicksand;
+	display: flex;
+	justify-content: center;
+	width: 10rem;
+	height: 3rem;
+	font-size: 1.2rem;
+	background-color: #159a9c;
+	border-radius: 8px;
+	color: #fff;
+	display: flex;
+	align-items: center;
+}
+
+.regular-loading {
+	font-family: Quicksand;
+	padding: 8px;
+	background-color: #159a9c;
+	border-radius: 8px;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	opacity: 50%;
+	cursor: unset;
+}
+
+.regular-loading {
+	font-family: Quicksand;
+	padding: 8px;
+	background-color: #159a9c;
+	border-radius: 8px;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	opacity: 50%;
+	cursor: unset;
+}
+.regular-btn:hover {
+	background-color: #147072;
+}
+.regular-btn:active {
+	background-color: #159a9cc5;
+}
+
+#calc-btn {
+	align-self: end;
+	margin-right: 5%;
+	/* padding: 6px 24px; */
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+	margin-left: 16px;
+	position: relative;
+	display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+	display: none;
+	position: absolute;
+	width: 100%;
+	background-color: #f1f1f1;
+	min-width: 120px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content button {
+	display: flex;
+	color: black;
+	width: 100%;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content button:hover {
+	background-color: #ddd;
+}
+
+.dropdown-content button:active {
+	background-color: rgb(197, 193, 193);
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+/* .dropdown:hover .dropbtn {background-color: #3e8e41;}  */
+.dropdown:hover .dropbtn {
+	background-color: #147072;
+}

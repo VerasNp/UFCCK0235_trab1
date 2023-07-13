@@ -1,0 +1,41 @@
+.cell {
+	padding: 8px;
+	min-width: 50px;
+	height: 20px;
+	font-size: 1rem;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	background-color: #b4bec9;
+	font-family: Quicksand;
+}
+.highlighted {
+	border: 1px solid #208586;
+}
+.column-title {
+	color: rgba(0, 0, 0, 0.5);
+	border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+button,
+input[type='submit'],
+input[type='reset'] {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+input[type='text'] {
+	outline: none;
+	border: none;
+	font-size: 1rem;
+
+	/* width: calc(100% + 20px); */
+	background-color: #b4bec9;
+}
+
+.unselectable {
+	user-select: none;
+}

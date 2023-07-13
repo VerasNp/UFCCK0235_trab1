@@ -1,0 +1,43 @@
+.upload-box {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background-color: #b4bec9;
+	width: 60%;
+	height: calc(100% - 6rem);
+	border-radius: 10px;
+	margin: 3rem auto;
+	font-family: 'Quicksand';
+}
+
+.upload-card {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: #edf2fe;
+	border: 3px dashed #159a9c;
+	border-radius: 10px;
+	width: 60%;
+	height: 30%;
+	margin: 0 auto;
+}
+
+input[type='file'] {
+	outline: none;
+	visibility: hidden;
+	position: absolute;
+}
+
+.selected-file {
+	display: flex;
+	text-align: center;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.upload-advice {
+	text-align: center;
+	padding: 18px;
+}

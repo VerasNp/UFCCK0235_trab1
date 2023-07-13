@@ -1,0 +1,30 @@
+.resume-box {
+	border-radius: 10px;
+	padding: 10px 50px;
+	margin: 10px 10px;
+	display: flex;
+	height: 30px;
+	align-items: center;
+	width: auto;
+}
+
+.resume-box-title {
+	width: 50%;
+}
+
+.resume-box-content {
+	width: 10em;
+	overflow-x: auto;
+	border-radius: 0.5em;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
+
+.box-blue {
+	background-color: #159a9c;
+}
+
+.box-white {
+	background-color: #ffffff;
+}
