@@ -12,11 +12,10 @@ interface Props {
 const SidebarData: React.FC<Props> = ({ tableDataRef, onVoltarClick }) => {
 	const handleExport = (): void => {
 		let csv: string = '';
-		const output = tableDataRef.current?.grid.map((col, i) =>
+		const output = tableDataRef.current?.grid[0].map((col, i) =>
 			tableDataRef.current?.grid.map((row) => row[i])
 		);
 		if (output === undefined) return;
-		output?.pop();
 
 		output?.forEach((e) => {
 			csv +=
