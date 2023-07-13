@@ -45,6 +45,30 @@
 	display: flex;
 	align-items: center;
 }
+
+.regular-loading {
+	font-family: Quicksand;
+	padding: 8px;
+	background-color: #159a9c;
+	border-radius: 8px;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	opacity: 50%;
+	cursor: unset;
+}
+
+.regular-loading {
+	font-family: Quicksand;
+	padding: 8px;
+	background-color: #159a9c;
+	border-radius: 8px;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	opacity: 50%;
+	cursor: unset;
+}
 .regular-btn:hover {
 	background-color: #147072;
 }

@@ -41,6 +41,7 @@ interface ContextMenuProps {
 	handleRemoveColumn: () => void;
 	handleRemoveRow: () => void;
 }
+
 const ContextMenu: React.FC<ContextMenuProps> = ({
 	xPos,
 	yPos,
@@ -102,6 +103,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 
 	const [contextMenuPos, setContextMenuPos] = useState({ xPos: 0, yPos: 0 });
 	const [showContextMenu, setShowContextMenu] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const handleContextMenu = (event: React.MouseEvent): void => {
 		event.preventDefault();
@@ -205,6 +207,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 
 	// Verify if there is a column selected, if so, change the app state and the columnToAnalyzeRef
 	const handleCalculateClick = (): void => {
+		setLoading(true);
 		if (tableData?.columnSelected !== undefined) {
 			const selectedCells = tableData.grid[tableData.columnSelected].filter(
 				(cell) => cell.value !== '' && cell.isSelected
@@ -233,10 +236,13 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				})
 				.catch((errorMsg) => {
 					alert(errorMsg);
+				})
+				.finally(() => {
+					setLoading(false);
 				});
-
 			return;
 		}
+		setLoading(false);
 		alert('nenhuma célula selecionada ');
 	};
 
@@ -427,7 +433,8 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 			</div>
 			<button
 				id="calc-btn"
-				className="regular-btn"
+				className={loading ? 'btn-loading' : 'regular-btn'}
+				disabled={loading}
 				onClick={handleCalculateClick}
 			>
 				Calcular{' '}
