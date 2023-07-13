@@ -22,7 +22,7 @@ const Snackbar: React.FC<Props> = ({
 					name={''}
 					disabled={false}
 					type={'button'}
-					className={'btn-snackbar'}
+					className={'btn snackbar'}
 					text={'Manualmente'}
 					onClick={onInsertManuallyClick}
 				/>
@@ -30,7 +30,7 @@ const Snackbar: React.FC<Props> = ({
 					name={''}
 					disabled={false}
 					type={'button'}
-					className={'btn-snackbar'}
+					className={'btn snackbar'}
 					text={'Inserir Arquivo'}
 					onClick={onInsertSendFileClick}
 				/>
