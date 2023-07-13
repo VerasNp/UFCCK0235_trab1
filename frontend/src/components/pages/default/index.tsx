@@ -24,10 +24,7 @@ export enum ApplicationPage {
 
 const Default: React.FC = () => {
 	const [appState, setAppState] = useState(ApplicationPage.DISPLAY_TABLE);
-	const tableDataRef = useRef<TableData>({
-		grid: [[{ value: '', isSelected: false }]],
-		types: ['string'],
-	});
+	const tableDataRef = useRef<TableData | null>(null);
 
 	// source: IColumn;
 	// analysisCalcs: INumericStatisticData | INonNumericStatisticData;
