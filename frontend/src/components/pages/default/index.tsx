@@ -3,14 +3,14 @@ import Home from '../../templates/home';
 import InsertData from '../../templates/insert_data';
 import { DisplayTable } from 'components/templates/display_table';
 import { type TableData } from 'components/organisms/datasheet';
-import { obtainTableData, tableDataFetched } from 'utils/io';
 
 import Analysis from 'components/templates/analysis';
 import SelectFile from 'components/templates/select_file';
 
-import SidebarHome from '../../organisms/sidebar/sidebarhome';
+import SidebarHome from 'components/organisms/sidebar/sidebarhome';
 import SidebarInsert from 'components/organisms/sidebar/sidebarinsertdata';
 import SidebarData from 'components/organisms/sidebar/sidebardata';
+import SidebarAnalysis from 'components/organisms/sidebar/sidebaranalysis';
 
 import './styles.css';
 import { type IAnalysis } from 'api/statisticApi/models/IAnalysis';
@@ -24,25 +24,21 @@ export enum ApplicationPage {
 }
 
 const Default: React.FC = () => {
-	const [appState, setAppState] = useState(ApplicationPage.DISPLAY_TABLE);
-	const tableDataRef = useRef<TableData>(obtainTableData(tableDataFetched));
-	// const columnToAnalyseRef = useRef<ColumnOutputData>({
-	// 	title: '',
-	// 	data: [''],
-	// 	isNumeric: '0',
-	// });
-	// const statisticalDataRef = useRef<INonNumericStatisticData | INonNumericStatisticData>({mode: "0", frequency: {}})
-	// source: IColumn;
-	const statisticalDataRef = useRef<IAnalysis>({
-		source: { title: 'eae', numericData: false, data: ['oi'] },
-		analysisCalcs: { mode: '0', frequency: {} },
+	const [appState, setAppState] = useState(ApplicationPage.HOME);
+	const tableDataRef = useRef<TableData>({
+		grid: [[{ value: '', isSelected: false }]],
+		types: ['string'],
 	});
-
+	const statisticalDataRef = useRef<IAnalysis | null>(null);
 	const handleInsertDataButtonClick = (): void => {
 		setAppState(ApplicationPage.INSERT_DATA);
 	};
 
 	const handleVoltarHomeButtonClick = (): void => {
+		tableDataRef.current = {
+			grid: [[{ value: '', isSelected: false }]],
+			types: ['string'],
+		};
 		setAppState(ApplicationPage.HOME);
 	};
 
@@ -88,11 +84,16 @@ const Default: React.FC = () => {
 			sidebarToRender = (
 				<SidebarInsert onVoltarClick={handleVoltarInsertButtonClick} />
 			);
-			pageToRender = <SelectFile />;
+			pageToRender = (
+				<SelectFile tableDataRef={tableDataRef} setAppState={setAppState} />
+			);
 			break;
 		case ApplicationPage.DISPLAY_TABLE:
 			sidebarToRender = (
-				<SidebarData onVoltarClick={handleVoltarInsertButtonClick} />
+				<SidebarData
+					tableDataRef={tableDataRef}
+					onVoltarClick={handleVoltarInsertButtonClick}
+				/>
 			);
 			pageToRender = (
 				<DisplayTable
@@ -104,7 +105,10 @@ const Default: React.FC = () => {
 			break;
 		case ApplicationPage.ANALYSIS:
 			sidebarToRender = (
-				<SidebarData onVoltarClick={handleVoltarDisplayButtonClick} />
+				<SidebarAnalysis
+					onVoltarClick={handleVoltarHomeButtonClick}
+					onVoltar2Click={handleVoltarDisplayButtonClick}
+				/>
 			);
 			pageToRender = <Analysis statisticalDataRef={statisticalDataRef} />;
 			break;

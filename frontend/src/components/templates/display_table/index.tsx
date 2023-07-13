@@ -6,7 +6,7 @@ import './styles.css';
 
 interface Props {
 	tableDataRef: MutableRefObject<TableData>;
-	statisticalDataRef: MutableRefObject<IAnalysis>;
+	statisticalDataRef: MutableRefObject<IAnalysis | null>;
 	setAppState: (state: ApplicationPage) => void;
 }
 

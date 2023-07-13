@@ -17,7 +17,7 @@ import './styles.css';
 
 interface DataSheetProps {
 	tableDataRef: MutableRefObject<TableData>;
-	statisticalDataRef: MutableRefObject<IAnalysis>;
+	statisticalDataRef: MutableRefObject<IAnalysis | null>;
 	setAppState: (state: ApplicationPage) => void;
 }
 
@@ -39,10 +39,8 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 	statisticalDataRef,
 	setAppState,
 }) => {
-	const [tableData, setTableData] = useState(tableDataRef.current);
+	const [tableData, setTableData] = useState<TableData>(tableDataRef.current);
 	const divRef = useRef<HTMLDivElement>(null);
-
-	console.log(tableData);
 
 	const saveTable = (data: TableData): void => {
 		setTableData(data);
@@ -51,7 +49,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 
 	// This function doesn't alter the tableData state, you need to call a setTableData with this
 	const tableUnselected = (): TableData => {
-		if (tableData.columnSelected !== undefined) {
+		if (tableData?.columnSelected !== undefined) {
 			const newGrid = tableData.grid.map((cArray, cIndex) => {
 				if (cIndex === tableData.columnSelected) {
 					return cArray.map((cell) => ({ ...cell, isSelected: false }));
@@ -103,7 +101,6 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				divRef.current != null &&
 				!divRef.current.contains(event.target as Node)
 			) {
-				// User clicked outside the div
 				setTableData(tableUnselected());
 			}
 		};
@@ -117,7 +114,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 
 	// Verify if there is a column selected, if so, change the app state and the columnToAnalyzeRef
 	const handleCalculateClick = (): void => {
-		if (tableData.columnSelected !== undefined) {
+		if (tableData?.columnSelected !== undefined) {
 			const selectedCells = tableData.grid[tableData.columnSelected].filter(
 				(cell) => cell.isSelected
 			);
@@ -153,12 +150,13 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 	};
 
 	const addRow = (): void => {
-		const grid = tableData.grid.map((columnArray) => [
+		const grid = tableData?.grid.map((columnArray) => [
 			...columnArray,
 			{ value: '', isSelected: false },
 		]);
 		const newTableData = { ...tableData, grid };
 		tableDataRef.current = newTableData;
+
 		setTableData(newTableData);
 	};
 

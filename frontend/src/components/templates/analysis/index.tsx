@@ -22,7 +22,7 @@ const Analysis: React.FC<AnalysisProps> = ({ statisticalDataRef }) => {
 					<div className={'chart'}>
 						<Chart
 							height={650}
-							data={data.source.data}
+							data={data?.source.data}
 							auxData={data}
 							chartType={chart}
 						/>
@@ -34,7 +34,7 @@ const Analysis: React.FC<AnalysisProps> = ({ statisticalDataRef }) => {
 								.map(([key, value], index) => (
 									<ResumeData
 										title={getTranslation(key)}
-										value={data.source.numericData ? value.toFixed(2) : value}
+										value={data.source.numericData ? value.toFixed(4) : value}
 										key={index}
 									/>
 								))}
