@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+	VictoryAxis,
 	VictoryBar,
 	VictoryBoxPlot,
 	VictoryChart,
@@ -19,11 +20,10 @@ interface Props {
 		source: IColumn;
 		analysisCalcs: any;
 	} | null;
-	height: number;
 }
 
 let chart: React.ReactElement | null;
-const Chart: React.FC<Props> = ({ chartType, data, auxData, height }) => {
+const Chart: React.FC<Props> = ({ chartType, data, auxData }) => {
 	const groupedData = (data: string[]): object[] => {
 		const aux: object[] = [];
 		data.forEach((e) => {
@@ -46,25 +46,14 @@ const Chart: React.FC<Props> = ({ chartType, data, auxData, height }) => {
 		case ChartsEnum.BAR:
 			if (auxData?.source.numericData === true) {
 				chart = (
-					<VictoryChart
-						height={height}
-						width={height}
-						theme={VictoryTheme.material}
-						domainPadding={60}
-					>
-						<VictoryBar
-							data={frequencyQualitativeData(auxData.analysisCalcs.frequency)}
-						/>
+					<VictoryChart theme={VictoryTheme.material} domainPadding={80}>
+						<VictoryBar data={auxData.source.data} />
+						<VictoryAxis dependentAxis />
 					</VictoryChart>
 				);
 			} else {
 				chart = (
-					<VictoryChart
-						height={height}
-						width={height}
-						theme={VictoryTheme.material}
-						domainPadding={60}
-					>
+					<VictoryChart theme={VictoryTheme.material} domainPadding={60}>
 						<VictoryBar
 							data={frequencyQualitativeData(auxData?.analysisCalcs.frequency)}
 						/>
@@ -74,12 +63,7 @@ const Chart: React.FC<Props> = ({ chartType, data, auxData, height }) => {
 			break;
 		case ChartsEnum.BOX_PLOT:
 			chart = (
-				<VictoryChart
-					height={height}
-					width={height}
-					theme={VictoryTheme.material}
-					domainPadding={60}
-				>
+				<VictoryChart theme={VictoryTheme.material} domainPadding={60}>
 					<VictoryBoxPlot
 						boxWidth={20}
 						data={[
@@ -96,6 +80,7 @@ const Chart: React.FC<Props> = ({ chartType, data, auxData, height }) => {
 						]}
 						domain={{ x: [1, 2], y: [0, auxData?.analysisCalcs.maximum] }}
 					/>
+					<VictoryAxis dependentAxis />
 				</VictoryChart>
 			);
 			break;
@@ -103,8 +88,6 @@ const Chart: React.FC<Props> = ({ chartType, data, auxData, height }) => {
 			if (auxData?.source.numericData === true) {
 				chart = (
 					<VictoryPie
-						height={height}
-						width={height}
 						theme={VictoryTheme.material}
 						data={frequencyQualitativeData(auxData.analysisCalcs.frequency)}
 					/>
@@ -112,8 +95,6 @@ const Chart: React.FC<Props> = ({ chartType, data, auxData, height }) => {
 			} else {
 				chart = (
 					<VictoryPie
-						height={height}
-						width={height}
 						theme={VictoryTheme.material}
 						data={frequencyQualitativeData(auxData?.analysisCalcs.frequency)}
 					/>
@@ -122,12 +103,7 @@ const Chart: React.FC<Props> = ({ chartType, data, auxData, height }) => {
 			break;
 		case ChartsEnum.HISTOGRAM:
 			chart = (
-				<VictoryChart
-					height={height}
-					width={height}
-					theme={VictoryTheme.material}
-					domainPadding={60}
-				>
+				<VictoryChart theme={VictoryTheme.material} domainPadding={60}>
 					<VictoryHistogram data={data != null ? groupedData(data) : []} />
 				</VictoryChart>
 			);

@@ -13,7 +13,8 @@
 }
 
 .resume-box-content {
-	width: 50%;
+	width: 10em;
+	overflow-x: auto;
 	border-radius: 0.5em;
 	justify-content: center;
 	align-items: center;

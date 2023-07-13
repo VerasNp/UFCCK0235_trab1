@@ -88,6 +88,14 @@ const CSVUploader: React.FC<Props> = ({ tableDataRef, setAppState }) => {
 					/>
 				</div>
 			)}
+			<div className={'upload-advice'}>
+				<p>
+					Obs.: Nosso sistema trabalha atualmente apenas com arquivos .csv, os
+					quais os itens devem estar separados utilizando o caractere
+					&quot;,&quot; (vírgula), caso contrário podem haver inconsistencias no
+					processamento!
+				</p>
+			</div>
 		</div>
 	);
 };
