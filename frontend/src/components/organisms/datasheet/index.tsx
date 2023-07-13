@@ -208,15 +208,20 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 	// Verify if there is a column selected, if so, change the app state and the columnToAnalyzeRef
 	const handleCalculateClick = (): void => {
 		setLoading(true);
+		if (tableData === null) {
+			setLoading(false);
+			return;
+		}
 		if (tableData?.columnSelected !== undefined) {
 			const selectedCells = tableData.grid[tableData.columnSelected].filter(
 				(cell) => cell.value !== '' && cell.isSelected
 			);
 
-			if (selectedCells.length === 1) {
+			if (selectedCells.length === 1 || selectedCells.length === 0) {
 				alert(
 					'Para realizar a análise, selecione uma coluna com mais de um dado'
 				);
+				setLoading(false);
 				return;
 			}
 
@@ -437,7 +442,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				disabled={loading}
 				onClick={handleCalculateClick}
 			>
-				Calcular{' '}
+				Calcular
 				<img style={{ marginLeft: 8 }} src="Calculator.svg" alt="Calculator" />
 			</button>
 		</div>
