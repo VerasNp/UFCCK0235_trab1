@@ -26,7 +26,6 @@ const CSVUploader: React.FC<Props> = ({ tableDataRef, setAppState }) => {
 	const activateFileInput = (): void => {
 		fileInputRef?.current?.click();
 	};
-
 	const handleFileChange = (
 		event: React.ChangeEvent<HTMLInputElement>
 	): void => {
