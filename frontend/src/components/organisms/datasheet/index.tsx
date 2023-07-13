@@ -240,9 +240,9 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				.finally(() => {
 					setLoading(false);
 				});
-
 			return;
 		}
+		setLoading(false);
 		alert('nenhuma célula selecionada ');
 	};
 
