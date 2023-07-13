@@ -98,7 +98,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 	const [tableData, setTableData] = useState<TableData>(tableDataRef.current);
 	const divRef = useRef<HTMLDivElement>(null);
 
-	console.log(tableDataRef.current);
+	console.log(tableData);
 
 	const [contextMenuPos, setContextMenuPos] = useState({ xPos: 0, yPos: 0 });
 	const [showContextMenu, setShowContextMenu] = useState(false);
@@ -129,7 +129,12 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				}
 				return cArray;
 			});
-			return { ...tableData, grid: newGrid, columnSelected: undefined };
+			return {
+				...tableData,
+				grid: newGrid,
+				columnSelected: undefined,
+				rowSelected: undefined,
+			};
 		}
 		return tableData;
 	};
@@ -152,7 +157,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				...table,
 				grid: newGrid,
 				columnSelected: column,
-				rowSelected: row,
+				// rowSelected: row,
 			});
 			return;
 		}
@@ -169,7 +174,12 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 			return cArray;
 		});
 
-		setTableData({ ...table, grid: newGrid, columnSelected: column });
+		setTableData({
+			...table,
+			grid: newGrid,
+			columnSelected: column,
+			rowSelected: row,
+		});
 	};
 
 	// When the user click outside the table, all cells selected lose focus
@@ -320,11 +330,12 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 					<ColumnCells key={columnIndex}>
 						{columnArray.map((cell, rowIndex) => {
 							let widget;
+							const key = `${cell.value}-${rowIndex},${columnIndex}`;
 							switch (tableData.types[columnIndex]) {
 								case 'int':
 									widget = (
 										<IntegerCell
-											key={rowIndex}
+											key={key}
 											title={cell.value}
 											isColumnTitle={rowIndex === 0}
 											isSelected={cell.isSelected}
@@ -340,7 +351,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 								case 'float':
 									widget = (
 										<FloatCell
-											key={rowIndex}
+											key={key}
 											title={cell.value}
 											isColumnTitle={rowIndex === 0}
 											isSelected={cell.isSelected}
@@ -356,7 +367,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 								default:
 									widget = (
 										<TextCell
-											key={rowIndex}
+											key={key}
 											title={cell.value}
 											isColumnTitle={rowIndex === 0}
 											isSelected={cell.isSelected}
