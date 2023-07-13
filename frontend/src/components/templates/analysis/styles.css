@@ -9,12 +9,14 @@
 	font-style: normal;
 	font-weight: 600;
 	line-height: normal;
+	overflow-y: auto;
 }
 
 .resume-content {
 	display: grid;
 	grid-template-columns: auto auto;
-	width: 50%;
+	justify-content: center;
+	width: 100%;
 }
 
 .chart-display-w-resume {
