@@ -18,7 +18,6 @@ export const obtainTableData = (dataFetched: IFileResponse): TableData => {
 		grid.push(cells);
 		columnTypes.push(data[column].type);
 	});
-	console.log({ grid, types: columnTypes });
 	return { grid, types: columnTypes };
 };
 

@@ -17,7 +17,7 @@ const Analysis: React.FC<AnalysisProps> = ({ statisticalDataRef }) => {
 	return (
 		<>
 			<div className={'container'}>
-				<SelectChart dataType={data?.source.numericData} setChart={setChart} />
+				<SelectChart dataType={data.source.numericData} setChart={setChart} />
 				<div className={'chart-display-w-resume'}>
 					<div className={'chart'}>
 						<Chart
@@ -29,19 +29,15 @@ const Analysis: React.FC<AnalysisProps> = ({ statisticalDataRef }) => {
 					</div>
 					{chart != null ? (
 						<div className={'resume-content'}>
-							{data != null
-								? Object.entries(data.analysisCalcs)
-										.filter((entry) => entry[0] !== 'frequency')
-										.map(([key, value], index) => (
-											<ResumeData
-												title={getTranslation(key)}
-												value={
-													data.source.numericData ? value.toFixed(2) : value
-												}
-												key={index}
-											/>
-										))
-								: ''}
+							{Object.entries(data.analysisCalcs)
+								.filter((entry) => entry[0] !== 'frequency')
+								.map(([key, value], index) => (
+									<ResumeData
+										title={getTranslation(key)}
+										value={data.source.numericData ? value.toFixed(4) : value}
+										key={index}
+									/>
+								))}
 						</div>
 					) : (
 						''
