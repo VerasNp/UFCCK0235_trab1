@@ -16,10 +16,17 @@ public class NonNumericDataStatisticService implements IStatisticService {
         nonNumericStatisticDTO.source = column;
         nonNumericStatisticDTO.analysisCalcs = new NonNumericStatisticDTO();
         nonNumericStatisticDTO.analysisCalcs.mode = this.mode(column.getData());
-        nonNumericStatisticDTO.analysisCalcs.frequency = this.frequency(column.getData());;
+        nonNumericStatisticDTO.analysisCalcs.frequency = this.frequency(column.getData());
+        ;
         return nonNumericStatisticDTO;
     }
 
+    /**
+     * Cálculo da moda
+     *
+     * @param data
+     * @return
+     */
     protected String mode(List<String> data) {
         Hashtable<String, Integer> auxMode = new Hashtable<String, Integer>();
         int maxFreq = 1;
@@ -40,16 +47,22 @@ public class NonNumericDataStatisticService implements IStatisticService {
         return modeElement;
     }
 
+    /**
+     * Cáculo da frequência dos elementos
+     *
+     * @param data
+     * @return
+     */
     protected Map<String, Double> frequency(List<String> data) {
         Map<String, Double> frequency = new HashMap<>();
-        for (var dat:
-             data) {
+        for (var dat :
+                data) {
             String lowerCase = String.format(dat).replace("\"", "").toLowerCase();
             double aux = frequency.getOrDefault(lowerCase.trim(), 0.0);
             frequency.put(lowerCase.trim(), aux + 1);
         }
 
-        for (String key:
+        for (String key :
                 frequency.keySet()) {
             double aux = frequency.getOrDefault(key, 0.0);
             frequency.put(key, (aux * 100) / data.size());
