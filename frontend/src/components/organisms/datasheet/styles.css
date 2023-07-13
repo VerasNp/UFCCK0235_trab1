@@ -34,6 +34,7 @@
 }
 
 .regular-btn {
+	font-family: Quicksand;
 	padding: 8px;
 	background-color: #159a9c;
 	border-radius: 8px;
@@ -56,6 +57,7 @@
 
 /* Dropdown Button */
 .dropbtn {
+	font-family: Quicksand;
 	padding: 12px;
 	display: flex;
 	align-items: center;
