@@ -6,7 +6,12 @@ import { FloatCell } from 'components/atoms/float_cell';
 import { IntegerCell } from 'components/atoms/int_cell';
 import { TextCell } from 'components/atoms/text_cell';
 import { ApplicationPage } from 'components/pages/default';
-import React, { type MutableRefObject, useState, useRef, useEffect } from 'react';
+import React, {
+	type MutableRefObject,
+	useState,
+	useRef,
+	useEffect,
+} from 'react';
 
 import './styles.css';
 
@@ -36,6 +41,7 @@ interface ContextMenuProps {
 	handleRemoveColumn: () => void;
 	handleRemoveRow: () => void;
 }
+
 const ContextMenu: React.FC<ContextMenuProps> = ({
 	xPos,
 	yPos,
@@ -95,10 +101,9 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 	);
 	const divRef = useRef<HTMLDivElement>(null);
 
-	console.log(tableData);
-
 	const [contextMenuPos, setContextMenuPos] = useState({ xPos: 0, yPos: 0 });
 	const [showContextMenu, setShowContextMenu] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const handleContextMenu = (event: React.MouseEvent): void => {
 		event.preventDefault();
@@ -202,6 +207,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 
 	// Verify if there is a column selected, if so, change the app state and the columnToAnalyzeRef
 	const handleCalculateClick = (): void => {
+		setLoading(true);
 		if (tableData?.columnSelected !== undefined) {
 			const selectedCells = tableData.grid[tableData.columnSelected].filter(
 				(cell) => cell.value !== '' && cell.isSelected
@@ -230,6 +236,9 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				})
 				.catch((errorMsg) => {
 					alert(errorMsg);
+				})
+				.finally(() => {
+					setLoading(false);
 				});
 
 			return;
@@ -334,7 +343,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				/>
 			)}
 			<div className="table">
-				{(tableData == null)
+				{tableData == null
 					? 'Insira uma coluna'
 					: tableData.grid.map((columnArray, columnIndex) => (
 							<ColumnCells key={columnIndex}>
@@ -424,7 +433,8 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 			</div>
 			<button
 				id="calc-btn"
-				className="regular-btn"
+				className={loading ? 'btn-loading' : 'regular-btn'}
+				disabled={loading}
 				onClick={handleCalculateClick}
 			>
 				Calcular{' '}
