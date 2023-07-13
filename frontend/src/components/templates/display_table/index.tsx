@@ -5,7 +5,7 @@ import React, { type MutableRefObject } from 'react';
 import './styles.css';
 
 interface Props {
-	tableDataRef: MutableRefObject<TableData>;
+	tableDataRef: MutableRefObject<TableData | null>;
 	statisticalDataRef: MutableRefObject<IAnalysis | null>;
 	setAppState: (state: ApplicationPage) => void;
 }

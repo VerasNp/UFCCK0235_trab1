@@ -13,7 +13,7 @@ interface File {
 }
 
 interface Props {
-	tableDataRef: MutableRefObject<TableData>;
+	tableDataRef: MutableRefObject<TableData | null>;
 	setAppState: (state: ApplicationPage) => void;
 }
 
@@ -46,7 +46,8 @@ const CSVUploader: React.FC<Props> = ({ tableDataRef, setAppState }) => {
 		formData.append('file', selectedFile?.blob);
 		fetchFile(formData)
 			.then((data) => {
-				tableDataRef.current = obtainTableData(data.data);
+				if (tableDataRef !== null)
+					tableDataRef.current = obtainTableData(data.data);
 			})
 			.then(() => {
 				setAppState(ApplicationPage.DISPLAY_TABLE);

@@ -5,7 +5,7 @@ import { type ApplicationPage } from '../../pages/default';
 import { type TableData } from '../../organisms/datasheet';
 
 interface Props {
-	tableDataRef: MutableRefObject<TableData>;
+	tableDataRef: MutableRefObject<TableData | null>;
 	setAppState: (state: ApplicationPage) => void;
 }
 

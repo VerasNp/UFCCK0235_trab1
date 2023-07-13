@@ -6,17 +6,12 @@ import { FloatCell } from 'components/atoms/float_cell';
 import { IntegerCell } from 'components/atoms/int_cell';
 import { TextCell } from 'components/atoms/text_cell';
 import { ApplicationPage } from 'components/pages/default';
-import React, {
-	type MutableRefObject,
-	useState,
-	useRef,
-	useEffect,
-} from 'react';
+import React, { type MutableRefObject, useState, useRef, useEffect } from 'react';
 
 import './styles.css';
 
 interface DataSheetProps {
-	tableDataRef: MutableRefObject<TableData>;
+	tableDataRef: MutableRefObject<TableData | null>;
 	statisticalDataRef: MutableRefObject<IAnalysis | null>;
 	setAppState: (state: ApplicationPage) => void;
 }
@@ -95,7 +90,9 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 	statisticalDataRef,
 	setAppState,
 }) => {
-	const [tableData, setTableData] = useState<TableData>(tableDataRef.current);
+	const [tableData, setTableData] = useState<TableData | null>(
+		tableDataRef.current ?? null
+	);
 	const divRef = useRef<HTMLDivElement>(null);
 
 	console.log(tableData);
@@ -136,7 +133,7 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				rowSelected: undefined,
 			};
 		}
-		return tableData;
+		return tableData ?? { grid: [], types: [] };
 	};
 
 	// updates the cells selected
@@ -157,7 +154,6 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				...table,
 				grid: newGrid,
 				columnSelected: column,
-				// rowSelected: row,
 			});
 			return;
 		}
@@ -242,62 +238,74 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 	};
 
 	const addRow = (): void => {
-		const grid = tableData?.grid.map((columnArray) => [
+		if (tableData === null) {
+			return;
+		}
+		const grid = (tableData?.grid ?? []).map((columnArray) => [
 			...columnArray,
 			{ value: '', isSelected: false },
 		]);
-		const newTableData = { ...tableData, grid };
+		const types = tableData?.types ?? [];
+		const newTableData: TableData = { grid, types };
 		tableDataRef.current = newTableData;
 
 		setTableData(newTableData);
 	};
 
 	const addColumn = (type: string): void => {
-		const len = tableData.grid[0].length;
-		const newColumn: CellData[] = [];
+		const len = (tableData?.grid[0] ?? []).length;
+		let newColumn: CellData[] = [];
+
+		if (len === 0) {
+			newColumn = [{ value: '', isSelected: false }];
+		}
+
 		for (let i = 0; i < len; i++) {
 			newColumn.push({ value: '', isSelected: false });
 		}
 
-		const grid = [...tableData.grid, newColumn];
+		const grid = [...(tableData?.grid ?? []), newColumn];
 		const newTableData = {
 			...tableData,
 			grid,
-			types: [...tableData.types, type],
+			types: [...(tableData?.types ?? []), type],
 		};
 		tableDataRef.current = newTableData;
 		setTableData(newTableData);
 	};
 
 	const removeColumn = (): void => {
-		const grid = tableData.grid.filter(
-			(_, index) => index !== tableData.columnSelected
-		);
-		const types = tableData.types.filter(
-			(_, index) => index !== tableData.columnSelected
-		);
-		const newTableData = {
-			...tableData,
-			grid,
-			types,
-		};
+		if (tableData?.columnSelected !== undefined) {
+			const grid = tableData.grid.filter(
+				(_, index) => index !== tableData.columnSelected
+			);
+			const types = tableData.types.filter(
+				(_, index) => index !== tableData.columnSelected
+			);
+			const newTableData = {
+				...tableData,
+				grid,
+				types,
+			};
 
-		tableDataRef.current = newTableData;
-		setTableData(newTableData);
+			tableDataRef.current = newTableData;
+			setTableData(newTableData);
+		}
 	};
 
 	const removeRow = (): void => {
-		console.log(tableData.rowSelected);
-		const grid = tableData.grid.map((column) => {
-			return column.filter((_, index) => index !== tableData.rowSelected);
-		});
-		const newTableData = {
-			...tableData,
-			grid,
-		};
+		if (tableData?.rowSelected !== undefined) {
+			const grid = tableData.grid.map((column) => {
+				return column.filter((_, index) => index !== tableData.rowSelected);
+			});
+			const newTableData = {
+				...tableData,
+				grid,
+			};
 
-		tableDataRef.current = newTableData;
-		setTableData(newTableData);
+			tableDataRef.current = newTableData;
+			setTableData(newTableData);
+		}
 	};
 
 	const addStringColumn = (): void => {
@@ -326,76 +334,86 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				/>
 			)}
 			<div className="table">
-				{tableData.grid.map((columnArray, columnIndex) => (
-					<ColumnCells key={columnIndex}>
-						{columnArray.map((cell, rowIndex) => {
-							let widget;
-							const key = `${cell.value}-${rowIndex},${columnIndex}`;
-							switch (tableData.types[columnIndex]) {
-								case 'int':
-									widget = (
-										<IntegerCell
-											key={key}
-											title={cell.value}
-											isColumnTitle={rowIndex === 0}
-											isSelected={cell.isSelected}
-											tableData={tableData}
-											row={rowIndex}
-											column={columnIndex}
-											tableUnselected={tableUnselected}
-											setSelected={setCellSelected}
-											saveTable={saveTable}
-										/>
-									);
-									break;
-								case 'float':
-									widget = (
-										<FloatCell
-											key={key}
-											title={cell.value}
-											isColumnTitle={rowIndex === 0}
-											isSelected={cell.isSelected}
-											tableData={tableData}
-											row={rowIndex}
-											column={columnIndex}
-											tableUnselected={tableUnselected}
-											setSelected={setCellSelected}
-											saveTable={saveTable}
-										/>
-									);
-									break;
-								default:
-									widget = (
-										<TextCell
-											key={key}
-											title={cell.value}
-											isColumnTitle={rowIndex === 0}
-											isSelected={cell.isSelected}
-											tableData={tableData}
-											row={rowIndex}
-											column={columnIndex}
-											tableUnselected={tableUnselected}
-											setSelected={setCellSelected}
-											saveTable={saveTable}
-										/>
-									);
-									break;
-							}
-							return widget;
-						})}
-					</ColumnCells>
-				))}
+				{(tableData == null)
+					? 'Insira uma coluna'
+					: tableData.grid.map((columnArray, columnIndex) => (
+							<ColumnCells key={columnIndex}>
+								{columnArray.map((cell, rowIndex) => {
+									let widget;
+									const key = `${cell.value}-${rowIndex},${columnIndex}`;
+									switch (tableData.types[columnIndex]) {
+										case 'int':
+											widget = (
+												<IntegerCell
+													key={key}
+													title={cell.value}
+													isColumnTitle={rowIndex === 0}
+													isSelected={cell.isSelected}
+													tableData={tableData}
+													row={rowIndex}
+													column={columnIndex}
+													tableUnselected={tableUnselected}
+													setSelected={setCellSelected}
+													saveTable={saveTable}
+												/>
+											);
+											break;
+										case 'float':
+											widget = (
+												<FloatCell
+													key={key}
+													title={cell.value}
+													isColumnTitle={rowIndex === 0}
+													isSelected={cell.isSelected}
+													tableData={tableData}
+													row={rowIndex}
+													column={columnIndex}
+													tableUnselected={tableUnselected}
+													setSelected={setCellSelected}
+													saveTable={saveTable}
+												/>
+											);
+											break;
+										default:
+											widget = (
+												<TextCell
+													key={key}
+													title={cell.value}
+													isColumnTitle={rowIndex === 0}
+													isSelected={cell.isSelected}
+													tableData={tableData}
+													row={rowIndex}
+													column={columnIndex}
+													tableUnselected={tableUnselected}
+													setSelected={setCellSelected}
+													saveTable={saveTable}
+												/>
+											);
+											break;
+									}
+									return widget;
+								})}
+							</ColumnCells>
+					  ))}
 			</div>
 			<div style={{ display: 'flex', alignSelf: 'start', marginLeft: '5%' }}>
 				<button className="regular-btn" onClick={addRow}>
-					<img style={{ marginRight: 6 }} src="icons8-add-24.png" />
+					<img
+						style={{ marginRight: 6 }}
+						src="icons8-add-24.png"
+						alt="Add Row"
+					/>
 					Add linha
 				</button>
 
 				<div className="dropdown">
 					<button className="dropbtn">
-						<img style={{ marginRight: 6 }} src="icons8-add-24.png" /> Add
-						coluna
+						<img
+							style={{ marginRight: 6 }}
+							src="icons8-add-24.png"
+							alt="Add Column"
+						/>{' '}
+						Add coluna
 					</button>
 					<div className="dropdown-content">
 						<button onClick={addStringColumn}>string</button>
@@ -409,7 +427,8 @@ export const DataSheet: React.FC<DataSheetProps> = ({
 				className="regular-btn"
 				onClick={handleCalculateClick}
 			>
-				Calcular <img style={{ marginLeft: 8 }} src="Calculator.svg" />
+				Calcular{' '}
+				<img style={{ marginLeft: 8 }} src="Calculator.svg" alt="Calculator" />
 			</button>
 		</div>
 	);
